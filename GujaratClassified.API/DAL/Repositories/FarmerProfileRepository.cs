@@ -93,6 +93,8 @@ namespace GujaratClassified.API.DAL.Repositories
                 _ => throw new ArgumentException("Invalid stat type")
             };
 
+
+
             var result = await connection.ExecuteAsync(
                 $"UPDATE FarmerProfiles SET {columnName} = {columnName} + @Increment WHERE UserId = @UserId",
                 new { UserId = userId, Increment = increment }
