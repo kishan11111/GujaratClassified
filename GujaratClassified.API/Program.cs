@@ -54,6 +54,17 @@ builder.Services.AddScoped<IPostRepository, PostRepository>();
 builder.Services.AddScoped<IPostImageRepository, PostImageRepository>();
 builder.Services.AddScoped<IPostVideoRepository, PostVideoRepository>();
 builder.Services.AddScoped<IFavoriteRepository, FavoriteRepository>();
+builder.Services.AddScoped<IAdvertisementRepository, AdvertisementRepository>();
+builder.Services.AddScoped<IAdInquiryRepository, AdInquiryRepository>();
+builder.Services.AddScoped<IPostLikeRepository, PostLikeRepository>();
+builder.Services.AddScoped<IPostCommentRepository, PostCommentRepository>();
+builder.Services.AddScoped<IAgriFieldRepository, AgriFieldRepository>();
+builder.Services.AddScoped<IAgriFieldImageRepository, AgriFieldImageRepository>();
+builder.Services.AddScoped<IAgriFieldVideoRepository, AgriFieldVideoRepository>();
+builder.Services.AddScoped<IAgriFieldCommentRepository, AgriFieldCommentRepository>();
+builder.Services.AddScoped<IAgriFieldLikeRepository, AgriFieldLikeRepository>();
+builder.Services.AddScoped<IAgriFieldFollowRepository, AgriFieldFollowRepository>();
+builder.Services.AddScoped<IFarmerProfileRepository, FarmerProfileRepository>();
 
 // Register Services
 builder.Services.AddScoped<IAdminAuthService, AdminAuthService>();
@@ -64,6 +75,12 @@ builder.Services.AddScoped<IOTPService, OTPService>();
 builder.Services.AddScoped<IUserPostService, UserPostService>();
 builder.Services.AddScoped<IFileUploadService, FileUploadService>();
 builder.Services.AddScoped<IBrowseService, BrowseService>();
+builder.Services.AddScoped<IAdvertisementService, AdvertisementService>();
+builder.Services.AddScoped<IPublicAdvertisementService, PublicAdvertisementService>();
+builder.Services.AddScoped<IPostLikeService, PostLikeService>();
+builder.Services.AddScoped<IPostCommentService, PostCommentService>();
+builder.Services.AddScoped<IAgriFieldService, AgriFieldService>();
+builder.Services.AddScoped<IFarmerProfileService, FarmerProfileService>();
 
 // Register Helpers
 builder.Services.AddScoped<IJwtHelper, JwtHelper>();
@@ -122,15 +139,25 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+//if (app.Environment.IsDevelopment())
+//{
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Gujarat Classified API v1");
         c.RoutePrefix = "swagger"; // Swagger available at /swagger
     });
-}
+//}
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    // Auto-detects base path (works with IIS virtual directory)
+    c.SwaggerEndpoint($"{(string.IsNullOrEmpty(c.RoutePrefix) ? "." : "..")}/swagger/v1/swagger.json",
+                      "Gujarat Classified API v1");
+
+    // Keep Swagger UI at /swagger
+    c.RoutePrefix = "swagger";
+});
 
 app.UseHttpsRedirection();
 
