@@ -36,6 +36,7 @@ namespace GujaratClassified.API.DAL.Repositories
                 commandType: CommandType.StoredProcedure
             );
 
+
             return imageId;
         }
 
