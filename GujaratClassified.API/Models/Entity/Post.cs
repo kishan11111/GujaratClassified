@@ -38,6 +38,7 @@
         public string? DistrictName { get; set; }
         public string? TalukaName { get; set; }
         public string? VillageName { get; set; }
+        public string? MainImageUrl { get; set; }
         public List<PostImage>? Images { get; set; }
         public List<PostVideo>? Videos { get; set; }
     }

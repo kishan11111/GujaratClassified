@@ -131,26 +131,39 @@ namespace GujaratClassified.API.DAL.Repositories
             return result > 0;
         }
 
+        //public async Task<User?> GetUserByRefreshTokenAsync(string refreshToken)
+        //{
+        //    using var connection = _connectionFactory.CreateConnection();
+
+        //    var user = await connection.QueryFirstOrDefaultAsync<User>(
+        //        @"SELECT u.UserId, u.FirstName, u.LastName, u.Mobile, u.Email, u.PasswordHash,
+        //                 u.DistrictId, u.TalukaId, u.VillageId, u.ProfileImage, u.DateOfBirth, u.Gender,
+        //                 u.IsActive, u.IsVerified, u.IsPremium, u.CreatedAt, u.UpdatedAt, u.LastLoginAt,
+        //                 u.RefreshToken, u.RefreshTokenExpiry,
+        //                 d.DistrictNameEnglish AS DistrictName,
+        //                 t.TalukaNameEnglish AS TalukaName,
+        //                 v.VillageNameEnglish AS VillageName
+        //          FROM Users u
+        //          INNER JOIN Districts d ON u.DistrictId = d.DistrictId
+        //          INNER JOIN Talukas t ON u.TalukaId = t.TalukaId
+        //          INNER JOIN Villages v ON u.VillageId = v.VillageId
+        //          WHERE u.RefreshToken = @RefreshToken 
+        //            AND u.RefreshTokenExpiry > GETUTCDATE() 
+        //            AND u.IsActive = 1",
+        //        new { RefreshToken = refreshToken }
+        //    );
+
+        //    return user;
+        //}
+
         public async Task<User?> GetUserByRefreshTokenAsync(string refreshToken)
         {
             using var connection = _connectionFactory.CreateConnection();
 
             var user = await connection.QueryFirstOrDefaultAsync<User>(
-                @"SELECT u.UserId, u.FirstName, u.LastName, u.Mobile, u.Email, u.PasswordHash,
-                         u.DistrictId, u.TalukaId, u.VillageId, u.ProfileImage, u.DateOfBirth, u.Gender,
-                         u.IsActive, u.IsVerified, u.IsPremium, u.CreatedAt, u.UpdatedAt, u.LastLoginAt,
-                         u.RefreshToken, u.RefreshTokenExpiry,
-                         d.DistrictNameEnglish AS DistrictName,
-                         t.TalukaNameEnglish AS TalukaName,
-                         v.VillageNameEnglish AS VillageName
-                  FROM Users u
-                  INNER JOIN Districts d ON u.DistrictId = d.DistrictId
-                  INNER JOIN Talukas t ON u.TalukaId = t.TalukaId
-                  INNER JOIN Villages v ON u.VillageId = v.VillageId
-                  WHERE u.RefreshToken = @RefreshToken 
-                    AND u.RefreshTokenExpiry > GETUTCDATE() 
-                    AND u.IsActive = 1",
-                new { RefreshToken = refreshToken }
+                "SP_GetUserByRefreshToken",
+                new { RefreshToken = refreshToken },
+                commandType: CommandType.StoredProcedure
             );
 
             return user;

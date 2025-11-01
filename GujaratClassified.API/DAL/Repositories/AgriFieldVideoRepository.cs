@@ -52,13 +52,38 @@ namespace GujaratClassified.API.DAL.Repositories
             return videos.ToList();
         }
 
+        //public async Task<bool> DeleteAgriFieldVideoAsync(int videoId, int agriFieldId)
+        //{
+        //    using var connection = _connectionFactory.CreateConnection();
+
+        //    var result = await connection.ExecuteAsync(
+        //        "DELETE FROM AgriFieldVideos WHERE AgriVideoId = @VideoId AND AgriFieldId = @AgriFieldId",
+        //        new { VideoId = videoId, AgriFieldId = agriFieldId }
+        //    );
+
+        //    return result > 0;
+        //}
+
+        //public async Task<bool> UpdateVideoCaptionAsync(int videoId, string caption)
+        //{
+        //    using var connection = _connectionFactory.CreateConnection();
+
+        //    var result = await connection.ExecuteAsync(
+        //        "UPDATE AgriFieldVideos SET Caption = @Caption WHERE AgriVideoId = @VideoId",
+        //        new { VideoId = videoId, Caption = caption }
+        //    );
+
+        //    return result > 0;
+        //}
+
         public async Task<bool> DeleteAgriFieldVideoAsync(int videoId, int agriFieldId)
         {
             using var connection = _connectionFactory.CreateConnection();
 
             var result = await connection.ExecuteAsync(
-                "DELETE FROM AgriFieldVideos WHERE AgriVideoId = @VideoId AND AgriFieldId = @AgriFieldId",
-                new { VideoId = videoId, AgriFieldId = agriFieldId }
+                "sp_AgriFieldVideo_Delete",
+                new { VideoId = videoId, AgriFieldId = agriFieldId },
+                commandType: CommandType.StoredProcedure
             );
 
             return result > 0;
@@ -69,11 +94,13 @@ namespace GujaratClassified.API.DAL.Repositories
             using var connection = _connectionFactory.CreateConnection();
 
             var result = await connection.ExecuteAsync(
-                "UPDATE AgriFieldVideos SET Caption = @Caption WHERE AgriVideoId = @VideoId",
-                new { VideoId = videoId, Caption = caption }
+                "sp_AgriFieldVideo_UpdateCaption",
+                new { VideoId = videoId, Caption = caption },
+                commandType: CommandType.StoredProcedure
             );
 
             return result > 0;
         }
+
     }
 }

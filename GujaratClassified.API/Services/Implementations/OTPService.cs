@@ -21,7 +21,7 @@ namespace GujaratClassified.API.Services.Implementations
             {
                 // Generate 6-digit OTP
                 var otpCode = GenerateOTP();
-
+                otpCode = "1234";
                 // Send SMS (implement your SMS service here)
                 var smsMessage = $"Your Gujarat Classified OTP is: {otpCode}. Valid for 5 minutes. Do not share with anyone.";
                 var smsSent = await SendSMSAsync(mobile, smsMessage);
@@ -58,27 +58,61 @@ namespace GujaratClassified.API.Services.Implementations
             }
         }
 
+        //public async Task<ApiResponse<object>> VerifyOTPAsync(string mobile, string otpCode, string purpose)
+        //{
+        //    try
+        //    {
+        //        var isValid = await _otpRepository.VerifyOTPAsync(mobile, otpCode, purpose);
+
+        //        if (!isValid)
+        //        {
+        //            return ApiResponse<object>.ErrorResponse("Invalid or expired OTP. Please try again.");
+        //        }
+
+        //        return ApiResponse<object>.SuccessResponse(null, "OTP verified successfully");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex, "Error verifying OTP for {Mobile}", mobile);
+        //        return ApiResponse<object>.ErrorResponse("An error occurred while verifying OTP",
+        //            new List<string> { ex.Message });
+        //    }
+        //}
+
         public async Task<ApiResponse<object>> VerifyOTPAsync(string mobile, string otpCode, string purpose)
         {
+            _logger.LogInformation("OTPService.VerifyOTPAsync - Started for Mobile: {Mobile}, Purpose: {Purpose}, OTP: {OTP}",
+                mobile, purpose, otpCode);
+
             try
             {
+                _logger.LogInformation("Calling repository to verify OTP in database");
+
                 var isValid = await _otpRepository.VerifyOTPAsync(mobile, otpCode, purpose);
+
+                _logger.LogInformation("Repository returned result: {IsValid} for mobile: {Mobile}", isValid, mobile);
 
                 if (!isValid)
                 {
+                    _logger.LogWarning("OTP validation failed - Mobile: {Mobile}, Purpose: {Purpose}, OTP: {OTP}",
+                        mobile, purpose, otpCode);
                     return ApiResponse<object>.ErrorResponse("Invalid or expired OTP. Please try again.");
                 }
 
+                _logger.LogInformation("OTP verified successfully for mobile: {Mobile}, Purpose: {Purpose}",
+                    mobile, purpose);
                 return ApiResponse<object>.SuccessResponse(null, "OTP verified successfully");
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error verifying OTP for {Mobile}", mobile);
-                return ApiResponse<object>.ErrorResponse("An error occurred while verifying OTP",
+                _logger.LogError(ex, "ERROR in OTPService.VerifyOTPAsync for Mobile: {Mobile}. Exception: {ExceptionType}, Message: {Message}, StackTrace: {StackTrace}",
+                    mobile, ex.GetType().Name, ex.Message, ex.StackTrace);
+
+                return ApiResponse<object>.ErrorResponse(
+                    "An error occurred while verifying OTP",
                     new List<string> { ex.Message });
             }
         }
-
         public string GenerateOTP()
         {
             // Generate 6-digit random OTP

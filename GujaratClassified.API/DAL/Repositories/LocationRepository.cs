@@ -58,47 +58,91 @@ namespace GujaratClassified.API.DAL.Repositories
             return villages.ToList();
         }
 
+        //public async Task<District?> GetDistrictByIdAsync(int districtId)
+        //{
+        //    using var connection = _connectionFactory.CreateConnection();
+
+        //    var district = await connection.QueryFirstOrDefaultAsync<District>(
+        //        "SELECT * FROM Districts WHERE DistrictId = @DistrictId AND IsActive = 1",
+        //        new { DistrictId = districtId }
+        //    );
+
+        //    return district;
+        //}
         public async Task<District?> GetDistrictByIdAsync(int districtId)
         {
             using var connection = _connectionFactory.CreateConnection();
 
+            var parameters = new { DistrictId = districtId };
+
             var district = await connection.QueryFirstOrDefaultAsync<District>(
-                "SELECT * FROM Districts WHERE DistrictId = @DistrictId AND IsActive = 1",
-                new { DistrictId = districtId }
+                "SP_GetDistrictById",
+                parameters,
+                commandType: CommandType.StoredProcedure
             );
 
             return district;
         }
 
+        //public async Task<Taluka?> GetTalukaByIdAsync(int talukaId)
+        //{
+        //    using var connection = _connectionFactory.CreateConnection();
+
+        //    var taluka = await connection.QueryFirstOrDefaultAsync<Taluka>(
+        //        @"SELECT t.*, d.DistrictNameEnglish AS DistrictName 
+        //          FROM Talukas t 
+        //          INNER JOIN Districts d ON t.DistrictId = d.DistrictId 
+        //          WHERE t.TalukaId = @TalukaId AND t.IsActive = 1",
+        //        new { TalukaId = talukaId }
+        //    );
+
+        //    return taluka;
+        //}
+
         public async Task<Taluka?> GetTalukaByIdAsync(int talukaId)
         {
             using var connection = _connectionFactory.CreateConnection();
 
+            var parameters = new { TalukaId = talukaId };
+
             var taluka = await connection.QueryFirstOrDefaultAsync<Taluka>(
-                @"SELECT t.*, d.DistrictNameEnglish AS DistrictName 
-                  FROM Talukas t 
-                  INNER JOIN Districts d ON t.DistrictId = d.DistrictId 
-                  WHERE t.TalukaId = @TalukaId AND t.IsActive = 1",
-                new { TalukaId = talukaId }
+                "SP_GetTalukaById",
+                parameters,
+                commandType: CommandType.StoredProcedure
             );
 
             return taluka;
         }
 
+        //public async Task<Village?> GetVillageByIdAsync(int villageId)
+        //{
+        //    using var connection = _connectionFactory.CreateConnection();
+
+        //    var village = await connection.QueryFirstOrDefaultAsync<Village>(
+        //        @"SELECT v.*, t.TalukaNameEnglish AS TalukaName, d.DistrictNameEnglish AS DistrictName
+        //          FROM Villages v 
+        //          INNER JOIN Talukas t ON v.TalukaId = t.TalukaId
+        //          INNER JOIN Districts d ON t.DistrictId = d.DistrictId
+        //          WHERE v.VillageId = @VillageId AND v.IsActive = 1",
+        //        new { VillageId = villageId }
+        //    );
+
+        //    return village;
+        //}
         public async Task<Village?> GetVillageByIdAsync(int villageId)
         {
             using var connection = _connectionFactory.CreateConnection();
 
+            var parameters = new { VillageId = villageId };
+
             var village = await connection.QueryFirstOrDefaultAsync<Village>(
-                @"SELECT v.*, t.TalukaNameEnglish AS TalukaName, d.DistrictNameEnglish AS DistrictName
-                  FROM Villages v 
-                  INNER JOIN Talukas t ON v.TalukaId = t.TalukaId
-                  INNER JOIN Districts d ON t.DistrictId = d.DistrictId
-                  WHERE v.VillageId = @VillageId AND v.IsActive = 1",
-                new { VillageId = villageId }
+                "SP_GetVillageById",
+                parameters,
+                commandType: CommandType.StoredProcedure
             );
 
             return village;
         }
+
     }
 }

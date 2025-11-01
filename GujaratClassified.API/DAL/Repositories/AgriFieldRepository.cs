@@ -190,100 +190,166 @@ namespace GujaratClassified.API.DAL.Repositories
             return result > 0;
         }
 
+        //public async Task<bool> UpdateAgriFieldStatusAsync(int agriFieldId, string status)
+        //{
+        //    using var connection = _connectionFactory.CreateConnection();
+
+        //    var result = await connection.ExecuteAsync(
+        //        "UPDATE AgriFields SET Status = @Status, UpdatedAt = @UpdatedAt WHERE AgriFieldId = @AgriFieldId",
+        //        new { AgriFieldId = agriFieldId, Status = status, UpdatedAt = DateTime.UtcNow }
+        //    );
+
+        //    return result > 0;
+        //}
         public async Task<bool> UpdateAgriFieldStatusAsync(int agriFieldId, string status)
         {
             using var connection = _connectionFactory.CreateConnection();
 
             var result = await connection.ExecuteAsync(
-                "UPDATE AgriFields SET Status = @Status, UpdatedAt = @UpdatedAt WHERE AgriFieldId = @AgriFieldId",
-                new { AgriFieldId = agriFieldId, Status = status, UpdatedAt = DateTime.UtcNow }
+                "sp_AgriField_UpdateStatus",
+                new { AgriFieldId = agriFieldId, Status = status },
+                commandType: CommandType.StoredProcedure
             );
 
             return result > 0;
         }
+
+
+        //public async Task<bool> IncrementViewCountAsync(int agriFieldId)
+        //{
+        //    using var connection = _connectionFactory.CreateConnection();
+
+        //    var result = await connection.ExecuteAsync(
+        //        "UPDATE AgriFields SET ViewCount = ViewCount + 1 WHERE AgriFieldId = @AgriFieldId",
+        //        new { AgriFieldId = agriFieldId }
+        //    );
+
+        //    return result > 0;
+        //}
 
         public async Task<bool> IncrementViewCountAsync(int agriFieldId)
         {
             using var connection = _connectionFactory.CreateConnection();
 
             var result = await connection.ExecuteAsync(
-                "UPDATE AgriFields SET ViewCount = ViewCount + 1 WHERE AgriFieldId = @AgriFieldId",
-                new { AgriFieldId = agriFieldId }
+                "sp_AgriField_IncrementViewCount",
+                new { AgriFieldId = agriFieldId },
+                commandType: CommandType.StoredProcedure
             );
 
             return result > 0;
         }
 
+        //public async Task<List<AgriField>> GetFeaturedAgriFieldsAsync(int limit = 10)
+        //{
+        //    using var connection = _connectionFactory.CreateConnection();
+
+        //    var agriFields = await connection.QueryAsync<AgriField>(
+        //        @"SELECT TOP(@Limit) af.*, u.FirstName + ' ' + ISNULL(u.LastName, '') as FarmerName, 
+        //                 u.Mobile as FarmerMobile, u.ProfileImage as FarmerProfileImage, u.IsVerified as FarmerVerified,
+        //                 d.DistrictName, t.TalukaName, v.VillageName
+        //          FROM AgriFields af
+        //          INNER JOIN Users u ON af.UserId = u.UserId
+        //          INNER JOIN Districts d ON af.DistrictId = d.DistrictId
+        //          INNER JOIN Talukas t ON af.TalukaId = t.TalukaId
+        //          INNER JOIN Villages v ON af.VillageId = v.VillageId
+        //          WHERE af.IsActive = 1 AND af.IsFeatured = 1 AND af.Status = 'ACTIVE'
+        //          ORDER BY af.CreatedAt DESC",
+        //        new { Limit = limit }
+        //    );
+
+        //    return agriFields.ToList();
+        //}
         public async Task<List<AgriField>> GetFeaturedAgriFieldsAsync(int limit = 10)
         {
             using var connection = _connectionFactory.CreateConnection();
 
             var agriFields = await connection.QueryAsync<AgriField>(
-                @"SELECT TOP(@Limit) af.*, u.FirstName + ' ' + ISNULL(u.LastName, '') as FarmerName, 
-                         u.Mobile as FarmerMobile, u.ProfileImage as FarmerProfileImage, u.IsVerified as FarmerVerified,
-                         d.DistrictName, t.TalukaName, v.VillageName
-                  FROM AgriFields af
-                  INNER JOIN Users u ON af.UserId = u.UserId
-                  INNER JOIN Districts d ON af.DistrictId = d.DistrictId
-                  INNER JOIN Talukas t ON af.TalukaId = t.TalukaId
-                  INNER JOIN Villages v ON af.VillageId = v.VillageId
-                  WHERE af.IsActive = 1 AND af.IsFeatured = 1 AND af.Status = 'ACTIVE'
-                  ORDER BY af.CreatedAt DESC",
-                new { Limit = limit }
+                "sp_AgriField_GetFeatured",
+                new { Limit = limit },
+                commandType: CommandType.StoredProcedure
             );
 
             return agriFields.ToList();
         }
+
+
+        //public async Task<List<AgriField>> GetNearbyAgriFieldsAsync(int districtId, int? talukaId = null, int limit = 20)
+        //{
+        //    using var connection = _connectionFactory.CreateConnection();
+
+        //    var whereClause = "af.DistrictId = @DistrictId";
+        //    var parameters = new { DistrictId = districtId, TalukaId = talukaId, Limit = limit };
+
+        //    if (talukaId.HasValue)
+        //    {
+        //        whereClause += " AND af.TalukaId = @TalukaId";
+        //    }
+
+        //    var agriFields = await connection.QueryAsync<AgriField>(
+        //        $@"SELECT TOP(@Limit) af.*, u.FirstName + ' ' + ISNULL(u.LastName, '') as FarmerName, 
+        //                  u.Mobile as FarmerMobile, u.ProfileImage as FarmerProfileImage, u.IsVerified as FarmerVerified,
+        //                  d.DistrictName, t.TalukaName, v.VillageName
+        //           FROM AgriFields af
+        //           INNER JOIN Users u ON af.UserId = u.UserId
+        //           INNER JOIN Districts d ON af.DistrictId = d.DistrictId
+        //           INNER JOIN Talukas t ON af.TalukaId = t.TalukaId
+        //           INNER JOIN Villages v ON af.VillageId = v.VillageId
+        //           WHERE {whereClause} AND af.IsActive = 1 AND af.Status = 'ACTIVE'
+        //           ORDER BY af.CreatedAt DESC",
+        //        parameters
+        //    );
+
+        //    return agriFields.ToList();
+        //}
 
         public async Task<List<AgriField>> GetNearbyAgriFieldsAsync(int districtId, int? talukaId = null, int limit = 20)
         {
             using var connection = _connectionFactory.CreateConnection();
 
-            var whereClause = "af.DistrictId = @DistrictId";
-            var parameters = new { DistrictId = districtId, TalukaId = talukaId, Limit = limit };
-
-            if (talukaId.HasValue)
-            {
-                whereClause += " AND af.TalukaId = @TalukaId";
-            }
-
             var agriFields = await connection.QueryAsync<AgriField>(
-                $@"SELECT TOP(@Limit) af.*, u.FirstName + ' ' + ISNULL(u.LastName, '') as FarmerName, 
-                          u.Mobile as FarmerMobile, u.ProfileImage as FarmerProfileImage, u.IsVerified as FarmerVerified,
-                          d.DistrictName, t.TalukaName, v.VillageName
-                   FROM AgriFields af
-                   INNER JOIN Users u ON af.UserId = u.UserId
-                   INNER JOIN Districts d ON af.DistrictId = d.DistrictId
-                   INNER JOIN Talukas t ON af.TalukaId = t.TalukaId
-                   INNER JOIN Villages v ON af.VillageId = v.VillageId
-                   WHERE {whereClause} AND af.IsActive = 1 AND af.Status = 'ACTIVE'
-                   ORDER BY af.CreatedAt DESC",
-                parameters
+                "sp_AgriField_GetNearby",
+                new { DistrictId = districtId, TalukaId = talukaId, Limit = limit },
+                commandType: CommandType.StoredProcedure
             );
 
             return agriFields.ToList();
         }
 
+
+        //public async Task<List<AgriField>> GetTrendingAgriFieldsAsync(int days = 7, int limit = 20)
+        //{
+        //    using var connection = _connectionFactory.CreateConnection();
+
+        //    var agriFields = await connection.QueryAsync<AgriField>(
+        //        @"SELECT TOP(@Limit) af.*, u.FirstName + ' ' + ISNULL(u.LastName, '') as FarmerName, 
+        //                 u.Mobile as FarmerMobile, u.ProfileImage as FarmerProfileImage, u.IsVerified as FarmerVerified,
+        //                 d.DistrictName, t.TalukaName, v.VillageName
+        //          FROM AgriFields af
+        //          INNER JOIN Users u ON af.UserId = u.UserId
+        //          INNER JOIN Districts d ON af.DistrictId = d.DistrictId
+        //          INNER JOIN Talukas t ON af.TalukaId = t.TalukaId
+        //          INNER JOIN Villages v ON af.VillageId = v.VillageId
+        //          WHERE af.IsActive = 1 AND af.Status = 'ACTIVE'
+        //            AND af.CreatedAt >= DATEADD(day, -@Days, GETUTCDATE())
+        //          ORDER BY (af.LikeCount + af.CommentCount + af.ViewCount/10.0) DESC, af.CreatedAt DESC",
+        //        new { Days = days, Limit = limit }
+        //    );
+
+        //    return agriFields.ToList();
+        //}
         public async Task<List<AgriField>> GetTrendingAgriFieldsAsync(int days = 7, int limit = 20)
         {
             using var connection = _connectionFactory.CreateConnection();
 
             var agriFields = await connection.QueryAsync<AgriField>(
-                @"SELECT TOP(@Limit) af.*, u.FirstName + ' ' + ISNULL(u.LastName, '') as FarmerName, 
-                         u.Mobile as FarmerMobile, u.ProfileImage as FarmerProfileImage, u.IsVerified as FarmerVerified,
-                         d.DistrictName, t.TalukaName, v.VillageName
-                  FROM AgriFields af
-                  INNER JOIN Users u ON af.UserId = u.UserId
-                  INNER JOIN Districts d ON af.DistrictId = d.DistrictId
-                  INNER JOIN Talukas t ON af.TalukaId = t.TalukaId
-                  INNER JOIN Villages v ON af.VillageId = v.VillageId
-                  WHERE af.IsActive = 1 AND af.Status = 'ACTIVE'
-                    AND af.CreatedAt >= DATEADD(day, -@Days, GETUTCDATE())
-                  ORDER BY (af.LikeCount + af.CommentCount + af.ViewCount/10.0) DESC, af.CreatedAt DESC",
-                new { Days = days, Limit = limit }
+                "sp_AgriField_GetTrending",
+                new { Days = days, Limit = limit },
+                commandType: CommandType.StoredProcedure
             );
 
             return agriFields.ToList();
         }
+
     }
 }

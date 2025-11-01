@@ -41,24 +41,24 @@ namespace GujaratClassified.API.Services.Implementations
                 }
 
                 // For LOGIN purpose, check if user exists
-                if (request.Purpose.ToUpper() == "LOGIN")
-                {
-                    var userExists = await _userRepository.IsMobileExistsAsync(request.Mobile);
-                    if (!userExists)
-                    {
-                        return ApiResponse<OTPResponse>.ErrorResponse("Mobile number not registered. Please register first.");
-                    }
-                }
+                //if (request.Purpose.ToUpper() == "LOGIN")
+                //{
+                //    var userExists = await _userRepository.IsMobileExistsAsync(request.Mobile);
+                //    if (!userExists)
+                //    {
+                //        return ApiResponse<OTPResponse>.ErrorResponse("Mobile number not registered. Please register first.");
+                //    }
+                //}
 
-                // For REGISTER purpose, check if user already exists
-                if (request.Purpose.ToUpper() == "REGISTER")
-                {
-                    var userExists = await _userRepository.IsMobileExistsAsync(request.Mobile);
-                    if (userExists)
-                    {
-                        return ApiResponse<OTPResponse>.ErrorResponse("Mobile number already registered. Please login instead.");
-                    }
-                }
+                //// For REGISTER purpose, check if user already exists
+                //if (request.Purpose.ToUpper() == "REGISTER")
+                //{
+                //    var userExists = await _userRepository.IsMobileExistsAsync(request.Mobile);
+                //    if (userExists)
+                //    {
+                //        return ApiResponse<OTPResponse>.ErrorResponse("Mobile number already registered. Please login instead.");
+                //    }
+                //}
 
                 return await _otpService.SendOTPAsync(request.Mobile, request.Purpose.ToUpper());
             }
@@ -70,36 +70,94 @@ namespace GujaratClassified.API.Services.Implementations
             }
         }
 
+        //public async Task<ApiResponse<UserLoginResponse>> VerifyOTPAndLoginAsync(VerifyOTPRequest request)
+        //{
+        //    try
+        //    {
+        //        // Verify OTP first
+        //        var otpResult = await _otpService.VerifyOTPAsync(request.Mobile, request.OTP, request.Purpose.ToUpper());
+        //        if (!otpResult.Success)
+        //        {
+        //            return ApiResponse<UserLoginResponse>.ErrorResponse(otpResult.Message);
+        //        }
+
+        //        // Handle different purposes
+        //        if (request.Purpose.ToUpper() == "LOGIN")
+        //        {
+        //            return await LoginWithOTPAsync(request.Mobile);
+        //        }
+        //        else if (request.Purpose.ToUpper() == "REGISTER")
+        //        {
+        //            return ApiResponse<UserLoginResponse>.SuccessResponse(null,
+        //                "OTP verified. Please complete registration.");
+        //        }
+        //        else
+        //        {
+        //            return ApiResponse<UserLoginResponse>.SuccessResponse(null, "OTP verified successfully");
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        //_logger.LogError(ex, "Error in VerifyOTPAndLoginAsync for mobile {Mobile}", request.Mobile);
+        //        //return ApiResponse<UserLoginResponse>.ErrorResponse("An error occurred while verifying OTP",
+        //        //    new List<string> { ex.Message });
+        //        throw ex;
+        //    }
+        //}
+
         public async Task<ApiResponse<UserLoginResponse>> VerifyOTPAndLoginAsync(VerifyOTPRequest request)
         {
+            _logger.LogInformation("VerifyOTPAndLoginAsync - Started for Mobile: {Mobile}, Purpose: {Purpose}",
+                request.Mobile, request.Purpose);
+
             try
             {
                 // Verify OTP first
+                _logger.LogInformation("Calling OTP verification service for mobile: {Mobile}", request.Mobile);
+
                 var otpResult = await _otpService.VerifyOTPAsync(request.Mobile, request.OTP, request.Purpose.ToUpper());
+
+                _logger.LogInformation("OTP verification result - Success: {Success}, Message: {Message}",
+                    otpResult.Success, otpResult.Message);
+
                 if (!otpResult.Success)
                 {
+                    _logger.LogWarning("OTP verification failed for mobile: {Mobile}. Reason: {Reason}",
+                        request.Mobile, otpResult.Message);
                     return ApiResponse<UserLoginResponse>.ErrorResponse(otpResult.Message);
                 }
 
                 // Handle different purposes
-                if (request.Purpose.ToUpper() == "LOGIN")
+                var purposeUpper = request.Purpose.ToUpper();
+                _logger.LogInformation("Processing purpose: {Purpose} for mobile: {Mobile}", purposeUpper, request.Mobile);
+
+                if (purposeUpper == "LOGIN")
                 {
-                    return await LoginWithOTPAsync(request.Mobile);
+                    _logger.LogInformation("Initiating login with OTP for mobile: {Mobile}", request.Mobile);
+                    var loginResult = await LoginWithOTPAsync(request.Mobile);
+                    _logger.LogInformation("Login completed - Success: {Success}", loginResult.Success);
+                    return loginResult;
                 }
-                else if (request.Purpose.ToUpper() == "REGISTER")
+                else if (purposeUpper == "REGISTER")
                 {
+                    _logger.LogInformation("Registration OTP verified for mobile: {Mobile}", request.Mobile);
                     return ApiResponse<UserLoginResponse>.SuccessResponse(null,
                         "OTP verified. Please complete registration.");
                 }
                 else
                 {
+                    _logger.LogInformation("Generic OTP verification completed for mobile: {Mobile}, Purpose: {Purpose}",
+                        request.Mobile, purposeUpper);
                     return ApiResponse<UserLoginResponse>.SuccessResponse(null, "OTP verified successfully");
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error in VerifyOTPAndLoginAsync for mobile {Mobile}", request.Mobile);
-                return ApiResponse<UserLoginResponse>.ErrorResponse("An error occurred while verifying OTP",
+                _logger.LogError(ex, "CRITICAL ERROR in VerifyOTPAndLoginAsync for mobile: {Mobile}. Exception: {ExceptionType}, Message: {Message}, StackTrace: {StackTrace}",
+                    request.Mobile, ex.GetType().Name, ex.Message, ex.StackTrace);
+
+                return ApiResponse<UserLoginResponse>.ErrorResponse(
+                    "An error occurred while verifying OTP",
                     new List<string> { ex.Message });
             }
         }

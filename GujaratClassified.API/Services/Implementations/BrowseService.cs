@@ -18,7 +18,7 @@ namespace GujaratClassified.API.Services.Implementations
             _logger = logger;
         }
 
-        public async Task<ApiResponse<(List<PostListResponse> Posts, PaginationResponse Pagination)>> GetAllPostsAsync(PostFilterRequest filter)
+        public async Task<ApiResponse<PostListWithPaginationResponse>> GetAllPostsAsync(PostFilterRequest filter)
         {
             try
             {
@@ -26,7 +26,6 @@ namespace GujaratClassified.API.Services.Implementations
                 filter.Status = "ACTIVE";
 
                 var (posts, totalCount) = await _postRepository.GetPostsWithFiltersAsync(filter);
-
                 var postResponses = posts.Select(MapPostToListResponse).ToList();
 
                 var pagination = new PaginationResponse
@@ -37,19 +36,25 @@ namespace GujaratClassified.API.Services.Implementations
                     TotalPages = (int)Math.Ceiling((double)totalCount / filter.PageSize)
                 };
 
-                return ApiResponse<(List<PostListResponse>, PaginationResponse)>.SuccessResponse(
-                    (postResponses, pagination),
+                var response = new PostListWithPaginationResponse
+                {
+                    Items = postResponses,
+                    Pagination = pagination
+                };
+
+                return ApiResponse<PostListWithPaginationResponse>.SuccessResponse(
+                    response,
                     $"Retrieved {postResponses.Count} posts successfully");
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error getting all posts with filters");
-                return ApiResponse<(List<PostListResponse>, PaginationResponse)>.ErrorResponse(
+                return ApiResponse<PostListWithPaginationResponse>.ErrorResponse(
                     "An error occurred while fetching posts", new List<string> { ex.Message });
             }
         }
 
-        public async Task<ApiResponse<(List<PostListResponse> Posts, PaginationResponse Pagination)>> GetPostsByCategoryAsync(int categoryId, PostFilterRequest filter)
+        public async Task<ApiResponse<PostListWithPaginationResponse>> GetPostsByCategoryAsync(int categoryId, PostFilterRequest filter)
         {
             try
             {
@@ -58,7 +63,6 @@ namespace GujaratClassified.API.Services.Implementations
                 filter.Status = "ACTIVE";
 
                 var (posts, totalCount) = await _postRepository.GetPostsWithFiltersAsync(filter);
-
                 var postResponses = posts.Select(MapPostToListResponse).ToList();
 
                 var pagination = new PaginationResponse
@@ -69,19 +73,25 @@ namespace GujaratClassified.API.Services.Implementations
                     TotalPages = (int)Math.Ceiling((double)totalCount / filter.PageSize)
                 };
 
-                return ApiResponse<(List<PostListResponse>, PaginationResponse)>.SuccessResponse(
-                    (postResponses, pagination),
+                var response = new PostListWithPaginationResponse
+                {
+                    Items = postResponses,
+                    Pagination = pagination
+                };
+
+                return ApiResponse<PostListWithPaginationResponse>.SuccessResponse(
+                    response,
                     $"Retrieved {postResponses.Count} posts from category successfully");
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error getting posts by category {CategoryId}", categoryId);
-                return ApiResponse<(List<PostListResponse>, PaginationResponse)>.ErrorResponse(
+                return ApiResponse<PostListWithPaginationResponse>.ErrorResponse(
                     "An error occurred while fetching posts by category", new List<string> { ex.Message });
             }
         }
 
-        public async Task<ApiResponse<(List<PostListResponse> Posts, PaginationResponse Pagination)>> SearchPostsAsync(string searchTerm, PostFilterRequest filter)
+        public async Task<ApiResponse<PostListWithPaginationResponse>> SearchPostsAsync(string searchTerm, PostFilterRequest filter)
         {
             try
             {
@@ -90,7 +100,6 @@ namespace GujaratClassified.API.Services.Implementations
                 filter.Status = "ACTIVE";
 
                 var (posts, totalCount) = await _postRepository.GetPostsWithFiltersAsync(filter);
-
                 var postResponses = posts.Select(MapPostToListResponse).ToList();
 
                 var pagination = new PaginationResponse
@@ -101,19 +110,25 @@ namespace GujaratClassified.API.Services.Implementations
                     TotalPages = (int)Math.Ceiling((double)totalCount / filter.PageSize)
                 };
 
-                return ApiResponse<(List<PostListResponse>, PaginationResponse)>.SuccessResponse(
-                    (postResponses, pagination),
+                var response = new PostListWithPaginationResponse
+                {
+                    Items = postResponses,
+                    Pagination = pagination
+                };
+
+                return ApiResponse<PostListWithPaginationResponse>.SuccessResponse(
+                    response,
                     $"Found {postResponses.Count} posts matching '{searchTerm}'");
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error searching posts with term {SearchTerm}", searchTerm);
-                return ApiResponse<(List<PostListResponse>, PaginationResponse)>.ErrorResponse(
+                return ApiResponse<PostListWithPaginationResponse>.ErrorResponse(
                     "An error occurred while searching posts", new List<string> { ex.Message });
             }
         }
 
-        public async Task<ApiResponse<(List<PostListResponse> Posts, PaginationResponse Pagination)>> GetPostsByLocationAsync(int districtId, PostFilterRequest filter)
+        public async Task<ApiResponse<PostListWithPaginationResponse>> GetPostsByLocationAsync(int districtId, PostFilterRequest filter)
         {
             try
             {
@@ -122,7 +137,6 @@ namespace GujaratClassified.API.Services.Implementations
                 filter.Status = "ACTIVE";
 
                 var (posts, totalCount) = await _postRepository.GetPostsWithFiltersAsync(filter);
-
                 var postResponses = posts.Select(MapPostToListResponse).ToList();
 
                 var pagination = new PaginationResponse
@@ -133,19 +147,25 @@ namespace GujaratClassified.API.Services.Implementations
                     TotalPages = (int)Math.Ceiling((double)totalCount / filter.PageSize)
                 };
 
-                return ApiResponse<(List<PostListResponse>, PaginationResponse)>.SuccessResponse(
-                    (postResponses, pagination),
+                var response = new PostListWithPaginationResponse
+                {
+                    Items = postResponses,
+                    Pagination = pagination
+                };
+
+                return ApiResponse<PostListWithPaginationResponse>.SuccessResponse(
+                    response,
                     $"Retrieved {postResponses.Count} posts from location successfully");
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error getting posts by location {DistrictId}", districtId);
-                return ApiResponse<(List<PostListResponse>, PaginationResponse)>.ErrorResponse(
+                return ApiResponse<PostListWithPaginationResponse>.ErrorResponse(
                     "An error occurred while fetching posts by location", new List<string> { ex.Message });
             }
         }
 
-        public async Task<ApiResponse<(List<PostListResponse> Posts, PaginationResponse Pagination)>> GetFeaturedPostsAsync(PostFilterRequest filter)
+        public async Task<ApiResponse<PostListWithPaginationResponse>> GetFeaturedPostsAsync(PostFilterRequest filter)
         {
             try
             {
@@ -155,7 +175,6 @@ namespace GujaratClassified.API.Services.Implementations
                 filter.SortBy = "NEWEST"; // Featured posts sorted by newest first
 
                 var (posts, totalCount) = await _postRepository.GetPostsWithFiltersAsync(filter);
-
                 var postResponses = posts.Select(MapPostToListResponse).ToList();
 
                 var pagination = new PaginationResponse
@@ -166,19 +185,25 @@ namespace GujaratClassified.API.Services.Implementations
                     TotalPages = (int)Math.Ceiling((double)totalCount / filter.PageSize)
                 };
 
-                return ApiResponse<(List<PostListResponse>, PaginationResponse)>.SuccessResponse(
-                    (postResponses, pagination),
+                var response = new PostListWithPaginationResponse
+                {
+                    Items = postResponses,
+                    Pagination = pagination
+                };
+
+                return ApiResponse<PostListWithPaginationResponse>.SuccessResponse(
+                    response,
                     $"Retrieved {postResponses.Count} featured posts successfully");
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error getting featured posts");
-                return ApiResponse<(List<PostListResponse>, PaginationResponse)>.ErrorResponse(
+                return ApiResponse<PostListWithPaginationResponse>.ErrorResponse(
                     "An error occurred while fetching featured posts", new List<string> { ex.Message });
             }
         }
 
-        public async Task<ApiResponse<(List<PostListResponse> Posts, PaginationResponse Pagination)>> GetLatestPostsAsync(PostFilterRequest filter)
+        public async Task<ApiResponse<PostListWithPaginationResponse>> GetLatestPostsAsync(PostFilterRequest filter)
         {
             try
             {
@@ -187,7 +212,6 @@ namespace GujaratClassified.API.Services.Implementations
                 filter.SortBy = "NEWEST"; // Latest posts sorted by newest first
 
                 var (posts, totalCount) = await _postRepository.GetPostsWithFiltersAsync(filter);
-
                 var postResponses = posts.Select(MapPostToListResponse).ToList();
 
                 var pagination = new PaginationResponse
@@ -198,19 +222,25 @@ namespace GujaratClassified.API.Services.Implementations
                     TotalPages = (int)Math.Ceiling((double)totalCount / filter.PageSize)
                 };
 
-                return ApiResponse<(List<PostListResponse>, PaginationResponse)>.SuccessResponse(
-                    (postResponses, pagination),
+                var response = new PostListWithPaginationResponse
+                {
+                    Items = postResponses,
+                    Pagination = pagination
+                };
+
+                return ApiResponse<PostListWithPaginationResponse>.SuccessResponse(
+                    response,
                     $"Retrieved {postResponses.Count} latest posts successfully");
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error getting latest posts");
-                return ApiResponse<(List<PostListResponse>, PaginationResponse)>.ErrorResponse(
+                return ApiResponse<PostListWithPaginationResponse>.ErrorResponse(
                     "An error occurred while fetching latest posts", new List<string> { ex.Message });
             }
         }
 
-        public async Task<ApiResponse<(List<PostListResponse> Posts, PaginationResponse Pagination)>> GetPopularPostsAsync(PostFilterRequest filter)
+        public async Task<ApiResponse<PostListWithPaginationResponse>> GetPopularPostsAsync(PostFilterRequest filter)
         {
             try
             {
@@ -219,7 +249,6 @@ namespace GujaratClassified.API.Services.Implementations
                 filter.SortBy = "POPULAR"; // Popular posts sorted by view count
 
                 var (posts, totalCount) = await _postRepository.GetPostsWithFiltersAsync(filter);
-
                 var postResponses = posts.Select(MapPostToListResponse).ToList();
 
                 var pagination = new PaginationResponse
@@ -230,14 +259,20 @@ namespace GujaratClassified.API.Services.Implementations
                     TotalPages = (int)Math.Ceiling((double)totalCount / filter.PageSize)
                 };
 
-                return ApiResponse<(List<PostListResponse>, PaginationResponse)>.SuccessResponse(
-                    (postResponses, pagination),
+                var response = new PostListWithPaginationResponse
+                {
+                    Items = postResponses,
+                    Pagination = pagination
+                };
+
+                return ApiResponse<PostListWithPaginationResponse>.SuccessResponse(
+                    response,
                     $"Retrieved {postResponses.Count} popular posts successfully");
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error getting popular posts");
-                return ApiResponse<(List<PostListResponse>, PaginationResponse)>.ErrorResponse(
+                return ApiResponse<PostListWithPaginationResponse>.ErrorResponse(
                     "An error occurred while fetching popular posts", new List<string> { ex.Message });
             }
         }
@@ -289,8 +324,7 @@ namespace GujaratClassified.API.Services.Implementations
                 VillageName = post.VillageName,
                 CategoryName = post.CategoryName,
                 SubCategoryName = post.SubCategoryName,
-                MainImageUrl = post.Images?.FirstOrDefault(i => i.IsMain)?.ImageUrl ??
-                              post.Images?.FirstOrDefault()?.ImageUrl
+                MainImageUrl = post.MainImageUrl
             };
         }
 

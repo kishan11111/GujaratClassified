@@ -1,10 +1,14 @@
-﻿namespace GujaratClassified.API.Models.Response
+﻿using System.Text.Json.Serialization;
+
+namespace GujaratClassified.API.Models.Response
 {
     public class ApiResponse<T>
     {
         public bool Success { get; set; }
         public string Message { get; set; }
-        public T? Data { get; set; }
+
+        [JsonPropertyName("data")]
+        public T Data { get; set; }
         public List<string>? Errors { get; set; }
         public object? Pagination { get; set; }
 

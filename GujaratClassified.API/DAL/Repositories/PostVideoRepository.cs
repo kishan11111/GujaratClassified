@@ -39,28 +39,54 @@ namespace GujaratClassified.API.DAL.Repositories
             return videoId;
         }
 
+        //public async Task<List<PostVideo>> GetPostVideosAsync(int postId)
+        //{
+        //    using var connection = _connectionFactory.CreateConnection();
+
+        //    var videos = await connection.QueryAsync<PostVideo>(
+        //        "SELECT * FROM PostVideos WHERE PostId = @PostId ORDER BY SortOrder, CreatedAt",
+        //        new { PostId = postId }
+        //    );
+
+        //    return videos.ToList();
+        //}
         public async Task<List<PostVideo>> GetPostVideosAsync(int postId)
         {
             using var connection = _connectionFactory.CreateConnection();
 
             var videos = await connection.QueryAsync<PostVideo>(
-                "SELECT * FROM PostVideos WHERE PostId = @PostId ORDER BY SortOrder, CreatedAt",
-                new { PostId = postId }
+                "SP_GetPostVideos",
+                new { PostId = postId },
+                commandType: CommandType.StoredProcedure
             );
 
             return videos.ToList();
         }
 
+
+        //public async Task<bool> DeletePostVideoAsync(int videoId, int postId)
+        //{
+        //    using var connection = _connectionFactory.CreateConnection();
+
+        //    var result = await connection.ExecuteAsync(
+        //        "DELETE FROM PostVideos WHERE VideoId = @VideoId AND PostId = @PostId",
+        //        new { VideoId = videoId, PostId = postId }
+        //    );
+
+        //    return result > 0;
+        //}
         public async Task<bool> DeletePostVideoAsync(int videoId, int postId)
         {
             using var connection = _connectionFactory.CreateConnection();
 
             var result = await connection.ExecuteAsync(
-                "DELETE FROM PostVideos WHERE VideoId = @VideoId AND PostId = @PostId",
-                new { VideoId = videoId, PostId = postId }
+                "SP_DeletePostVideo",
+                new { VideoId = videoId, PostId = postId },
+                commandType: CommandType.StoredProcedure
             );
 
             return result > 0;
         }
+
     }
 }

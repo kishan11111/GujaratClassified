@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>લોકબજાર - ગુજરાતનું પોતાનું ક્લાસિફાઇડ પ્લેટફોર્મ | Coming Soon</title>
+    <meta name="description" content="લોકબજાર - ગુજરાતના લોકો માટે એક સંપૂર્ણ ઑનલાઇન માર્કેટપ્લેસ. ખરીદો, વેચો અને તમારા સ્થાનિક સમુદાય સાથે જોડાઓ.">
+    <meta name="keywords" content="લોકબજાર, LokBazzar, Gujarat classified, ગુજરાત, ક્લાસિફાઇડ, ખરીદો વેચો, buy sell Gujarat">
+
+    <meta property="og:title" content="લોકબજાર - ગુજરાતનું પોતાનું ક્લાસિફાઇડ પ્લેટફોર્મ">
+    <meta property="og:description" content="ગુજરાતના લોકો માટે એક સંપૂર્ણ ઑનલાઇન માર્કેટપ્લેસ">
+    <meta property="og:image" content="/logo.png">
+    <meta property="og:url" content="https://lokbazzar.com">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Gujarati:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --secondary: #0f172a;
+            --accent: #f59e0b;
+            --bg-light: #f8fafc;
+            --bg-white: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --success: #10b981;
+        }
+
+        body {
+            font-family: 'Noto Sans Gujarati', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(to bottom, #ffffff 0%, #f8fafc 100%);
+            min-height: 100vh;
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--bg-white);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-nav {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            font-weight: 700;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--secondary);
+        }
+
+        .nav-status {
+            background: #fef3c7;
+            color: #92400e;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* Hero Section */
+        .hero {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #dbeafe;
+            color: var(--primary-dark);
+            padding: 0.5rem 1.25rem;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 2rem;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: pulse-dot 2s infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        h1 {
+            font-size: 56px;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-subtitle {
+            font-size: 22px;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: 400;
+        }
+
+        /* Email Signup */
+        .email-signup {
+            max-width: 500px;
+            margin: 0 auto 4rem;
+            display: flex;
+            gap: 0.75rem;
+            background: white;
+            padding: 0.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .email-input {
+            flex: 1;
+            padding: 0.875rem 1rem;
+            border: none;
+            font-size: 16px;
+            outline: none;
+            font-family: inherit;
+        }
+
+        .notify-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.875rem 2rem;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            white-space: nowrap;
+            font-family: inherit;
+        }
+
+            .notify-btn:hover {
+                background: var(--primary-dark);
+            }
+
+        /* Features Grid */
+        .features-section {
+            background: var(--bg-light);
+            padding: 5rem 2rem;
+        }
+
+        .features-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+
+        .section-description {
+            font-size: 18px;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+            .feature-card:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+                border-color: var(--primary);
+            }
+
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--secondary);
+            margin-bottom: 0.75rem;
+        }
+
+        .feature-description {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* About Section */
+        .about-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-content h2 {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .about-content p {
+            font-size: 17px;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .stat-card {
+            background: var(--bg-light);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .about-visual {
+            position: relative;
+            height: 500px;
+        }
+
+        .visual-card {
+            position: absolute;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            border: 1px solid var(--border);
+        }
+
+            .visual-card:nth-child(1) {
+                top: 0;
+                left: 0;
+                width: 70%;
+                z-index: 3;
+            }
+
+            .visual-card:nth-child(2) {
+                top: 40%;
+                right: 0;
+                width: 60%;
+                z-index: 2;
+            }
+
+            .visual-card:nth-child(3) {
+                bottom: 0;
+                left: 10%;
+                width: 50%;
+                z-index: 1;
+            }
+
+        .visual-icon {
+            font-size: 48px;
+            margin-bottom: 1rem;
+        }
+
+        .visual-text {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--secondary);
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background: var(--secondary);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .contact-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .contact-section h3 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 2rem;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .contact-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        .contact-icon {
+            font-size: 32px;
+            margin-bottom: 1rem;
+        }
+
+        .contact-label {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .contact-value {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+            .contact-value a {
+                color: white;
+                text-decoration: none;
+                transition: opacity 0.2s;
+            }
+
+                .contact-value a:hover {
+                    opacity: 0.8;
+                }
+
+        /* Footer */
+        footer {
+            background: var(--bg-white);
+            border-top: 1px solid var(--border);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 36px;
+            }
+
+            .hero-subtitle {
+                font-size: 18px;
+            }
+
+            .email-signup {
+                flex-direction: column;
+            }
+
+            .notify-btn {
+                width: 100%;
+            }
+
+            .about-section {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .about-visual {
+                height: 400px;
+            }
+
+            .section-title {
+                font-size: 28px;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-container {
+                padding: 0 1rem;
+            }
+
+            .nav-status {
+                font-size: 12px;
+                padding: 0.4rem 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding: 2rem 1rem;
+            }
+
+            .features-section {
+                padding: 3rem 1rem;
+            }
+
+            .about-section {
+                padding: 3rem 1rem;
+            }
+
+            .about-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo-nav">
+                <div class="logo-icon">લો</div>
+                <span class="logo-text">લોકબજાર</span>
+            </div>
+            <div class="nav-status">
+                Coming Soon
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-badge">
+            <span class="status-dot"></span>
+            નવું પ્લેટફોર્મ લોન્ચ થઈ રહ્યું છે
+        </div>
+        <h1>ગુજરાતનું પોતાનું<br>ડિજિટલ માર્કેટપ્લેસ</h1>
+        <p class="hero-subtitle">
+            તમારા સ્થાનિક સમુદાય સાથે જોડાઓ. ખરીદો, વેચો અને વેપાર કરો વિશ્વસનીય અને સુરક્ષિત રીતે.
+        </p>
+        <div class="email-signup">
+            <input type="email" class="email-input" placeholder="તમારી ઇમેઇલ દાખલ કરો" />
+            <button class="notify-btn">જાણ કરો મને</button>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="features-container">
+            <div class="section-header">
+                <h2 class="section-title">શું મળશે તમને?</h2>
+                <p class="section-description">
+                    સંપૂર્ણ ક્લાસિફાઇડ સોલ્યુશન ગુજરાતની ભાષામાં અને સંસ્કૃતિમાં
+                </p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🏠</div>
+                    <h3 class="feature-title">મિલકત</h3>
+                    <p class="feature-description">
+                        ઘર, દુકાન, જમીન અને કોમર્શિયલ પ્રોપર્ટી ખરીદો-વેચો સરળતાથી
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🚗</div>
+                    <h3 class="feature-title">વાહનો</h3>
+                    <p class="feature-description">
+                        નવા અને જૂના વાહનો - કાર, બાઇક, સ્કૂટર અને કોમર્શિયલ વાહનો
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💼</div>
+                    <h3 class="feature-title">નોકરી અને સેવાઓ</h3>
+                    <p class="feature-description">
+                        રોજગારની તકો શોધો અને પ્રોફેશનલ સેવાઓ મેળવો
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3 class="feature-title">ઇલેક્ટ્રોનિક્સ</h3>
+                    <p class="feature-description">
+                        મોબાઇલ, લેપટોપ, કેમેરા અને લેટેસ્ટ ગેજેટ્સ
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section">
+        <div class="about-content">
+            <h2>લોકબજાર વિશે</h2>
+            <p>
+                લોકબજાર એ ગુજરાતના લોકો માટે ખાસ બનાવવામાં આવેલું એક અનોખું ઑનલાઇન ક્લાસિફાઇડ પ્લેટફોર્મ છે. અહીં તમે સરળતાથી તમારી જરૂરિયાતની વસ્તુઓ ખરીદી અને વેચી શકો છો.
+            </p>
+            <p>
+                અમારું લક્ષ્ય છે કે ગુજરાતના દરેક ખૂણામાં રહેતા લોકોને એક સુરક્ષિત, ભરોસાપાત્ર અને સરળ પ્લેટફોર્મ પૂરું પાડવું જ્યાં તેઓ તેમના સ્થાનિક સમુદાય સાથે વ્યાપાર કરી શકે.
+            </p>
+            <div class="about-stats">
+                <div class="stat-card">
+                    <div class="stat-number">33+</div>
+                    <div class="stat-label">જિલ્લાઓ</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">10+</div>
+                    <div class="stat-label">કેટેગરી</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">સુરક્ષિત</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">સપોર્ટ</div>
+                </div>
+            </div>
+        </div>
+        <div class="about-visual">
+            <div class="visual-card">
+                <div class="visual-icon">🎯</div>
+                <div class="visual-text">સ્થાનિક ફોકસ</div>
+            </div>
+            <div class="visual-card">
+                <div class="visual-icon">🔒</div>
+                <div class="visual-text">સુરક્ષિત ટ્રાન્ઝેક્શન</div>
+            </div>
+            <div class="visual-card">
+                <div class="visual-icon">⚡</div>
+                <div class="visual-text">ઝડપી અને સરળ</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section">
+        <div class="contact-container">
+            <h3>સંપર્કમાં રહો</h3>
+            <p>અમને જણાવો તમારા વિચારો અને સૂચનો</p>
+            <div class="contact-grid">
+                <div class="contact-item">
+                    <div class="contact-icon">📧</div>
+                    <div class="contact-label">Email</div>
+                    <div class="contact-value">
+                        <a href="mailto:lokbazzar9999@gmail.com">lokbazzar9999@gmail.com</a>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">🌐</div>
+                    <div class="contact-label">Website</div>
+                    <div class="contact-value">
+                        <a href="https://lokbazzar.com">www.lokbazzar.com</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 લોકબજાર. All rights reserved. | ગુજરાતનું પોતાનું ડિજિટલ માર્કેટપ્લેસ</p>
+    </footer>
+
+    <script>
+        // Email signup functionality
+        document.querySelector('.notify-btn').addEventListener('click', function() {
+            const email = document.querySelector('.email-input').value;
+            if (email) {
+                alert('આભાર! અમે તમને અપડેટ મોકલીશું.');
+                document.querySelector('.email-input').value = '';
+            } else {
+                alert('કૃપા કરીને તમારી ઇમેઇલ દાખલ કરો.');
+            }
+        });
+    </script>
+</body>
+</html>

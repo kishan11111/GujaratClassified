@@ -40,4 +40,10 @@
             }
         }
     }
+
+    public class PostListWithPaginationResponse
+    {
+        public List<PostListResponse> Items { get; set; }
+        public PaginationResponse Pagination { get; set; }
+    }
 }

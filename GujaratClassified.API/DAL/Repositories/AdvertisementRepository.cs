@@ -323,22 +323,40 @@ namespace GujaratClassified.API.DAL.Repositories
             return (inquiries, totalCount);
         }
 
+        //public async Task<bool> UpdateInquiryStatusAsync(int inquiryId, string status)
+        //{
+        //    using var connection = _connectionFactory.CreateConnection();
+
+        //    var sql = @"
+        //        UPDATE AdInquiries 
+        //        SET Status = @Status, 
+        //            RespondedAt = CASE WHEN @Status = 'RESPONDED' THEN GETUTCDATE() ELSE RespondedAt END
+        //        WHERE InquiryId = @InquiryId";
+
+        //    var parameters = new DynamicParameters();
+        //    parameters.Add("@InquiryId", inquiryId);
+        //    parameters.Add("@Status", status);
+
+        //    var rowsAffected = await connection.ExecuteAsync(sql, parameters);
+        //    return rowsAffected > 0;
+        //}
+
         public async Task<bool> UpdateInquiryStatusAsync(int inquiryId, string status)
         {
             using var connection = _connectionFactory.CreateConnection();
-
-            var sql = @"
-                UPDATE AdInquiries 
-                SET Status = @Status, 
-                    RespondedAt = CASE WHEN @Status = 'RESPONDED' THEN GETUTCDATE() ELSE RespondedAt END
-                WHERE InquiryId = @InquiryId";
 
             var parameters = new DynamicParameters();
             parameters.Add("@InquiryId", inquiryId);
             parameters.Add("@Status", status);
 
-            var rowsAffected = await connection.ExecuteAsync(sql, parameters);
+            var rowsAffected = await connection.ExecuteAsync(
+                "SP_UpdateInquiryStatus",
+                parameters,
+                commandType: CommandType.StoredProcedure
+            );
+
             return rowsAffected > 0;
         }
+
     }
 }

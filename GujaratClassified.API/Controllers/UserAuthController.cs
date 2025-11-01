@@ -13,10 +13,14 @@ namespace GujaratClassified.API.Controllers
     public class UserAuthController : ControllerBase
     {
         private readonly IUserAuthService _userAuthService;
+        private readonly ILogger<UserAuthController> _logger;
 
-        public UserAuthController(IUserAuthService userAuthService)
+
+        public UserAuthController(IUserAuthService userAuthService,
+            ILogger<UserAuthController> logger)
         {
             _userAuthService = userAuthService;
+            _logger = logger;
         }
 
         /// <summary>
@@ -47,22 +51,67 @@ namespace GujaratClassified.API.Controllers
         /// </summary>
         /// <param name="request">Mobile, OTP, and purpose</param>
         /// <returns>Login response or verification confirmation</returns>
+        //[HttpPost("verify-otp")]
+        //public async Task<IActionResult> VerifyOTP([FromBody] VerifyOTPRequest request)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+
+        //    var result = await _userAuthService.VerifyOTPAndLoginAsync(request);
+
+        //    if (result.Success)
+        //    {
+        //        return Ok(result);
+        //    }
+
+        //    return BadRequest(result);
+        //}
+
         [HttpPost("verify-otp")]
         public async Task<IActionResult> VerifyOTP([FromBody] VerifyOTPRequest request)
         {
+            _logger.LogInformation("=== OTP Verification Started ===");
+            _logger.LogInformation("Request received - Mobile: {Mobile}, Purpose: {Purpose}",
+                request?.Mobile, request?.Purpose);
+
             if (!ModelState.IsValid)
             {
+                _logger.LogWarning("Invalid ModelState for OTP verification. Errors: {Errors}",
+                    string.Join(", ", ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage)));
                 return BadRequest(ModelState);
             }
 
-            var result = await _userAuthService.VerifyOTPAndLoginAsync(request);
-
-            if (result.Success)
+            try
             {
-                return Ok(result);
-            }
+                var result = await _userAuthService.VerifyOTPAndLoginAsync(request);
 
-            return BadRequest(result);
+                if (result.Success)
+                {
+                    _logger.LogInformation("OTP verification successful for mobile: {Mobile}", request.Mobile);
+                    return Ok(result);
+                }
+
+                _logger.LogWarning("OTP verification failed for mobile: {Mobile}. Reason: {Message}",
+                    request.Mobile, result.Message);
+                return BadRequest(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unhandled exception in VerifyOTP controller for mobile: {Mobile}",
+                    request?.Mobile);
+                return StatusCode(500, new
+                {
+                    Success = false,
+                    Message = "An unexpected error occurred",
+                    Error = ex.Message
+                });
+            }
+            finally
+            {
+                _logger.LogInformation("=== OTP Verification Completed ===");
+            }
         }
 
         /// <summary>

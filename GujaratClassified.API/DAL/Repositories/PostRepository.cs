@@ -19,32 +19,41 @@ namespace GujaratClassified.API.DAL.Repositories
 
         public async Task<int> CreatePostAsync(Post post)
         {
-            using var connection = _connectionFactory.CreateConnection();
+            try
+            {
+                using var connection = _connectionFactory.CreateConnection();
 
-            var parameters = new DynamicParameters();
-            parameters.Add("@UserId", post.UserId);
-            parameters.Add("@CategoryId", post.CategoryId);
-            parameters.Add("@SubCategoryId", post.SubCategoryId);
-            parameters.Add("@Title", post.Title);
-            parameters.Add("@Description", post.Description);
-            parameters.Add("@Price", post.Price);
-            parameters.Add("@PriceType", post.PriceType);
-            parameters.Add("@Condition", post.Condition);
-            parameters.Add("@DistrictId", post.DistrictId);
-            parameters.Add("@TalukaId", post.TalukaId);
-            parameters.Add("@VillageId", post.VillageId);
-            parameters.Add("@Address", post.Address);
-            parameters.Add("@ContactMethod", post.ContactMethod);
-            parameters.Add("@ContactPhone", post.ContactPhone);
-            parameters.Add("@IsFeatured", post.IsFeatured);
+                var parameters = new DynamicParameters();
+                parameters.Add("@UserId", post.UserId);
+                parameters.Add("@CategoryId", post.CategoryId);
+                parameters.Add("@SubCategoryId", post.SubCategoryId);
+                parameters.Add("@Title", post.Title);
+                parameters.Add("@Description", post.Description);
+                parameters.Add("@Price", post.Price);
+                parameters.Add("@PriceType", post.PriceType);
+                parameters.Add("@Condition", post.Condition);
+                parameters.Add("@DistrictId", post.DistrictId);
+                parameters.Add("@TalukaId", post.TalukaId);
+                parameters.Add("@VillageId", post.VillageId);
+                parameters.Add("@Address", post.Address);
+                parameters.Add("@ContactMethod", post.ContactMethod);
+                parameters.Add("@ContactPhone", post.ContactPhone);
+                parameters.Add("@IsFeatured", post.IsFeatured);
 
-            var postId = await connection.QuerySingleAsync<int>(
-                "SP_CreatePost",
-                parameters,
-                commandType: CommandType.StoredProcedure
-            );
+                var postId = await connection.QuerySingleAsync<int>(
+                    "SP_CreatePost",
+                    parameters,
+                    commandType: CommandType.StoredProcedure
+                );
 
-            return postId;
+                return postId;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            
         }
 
         public async Task<Post?> GetPostByIdAsync(int postId)

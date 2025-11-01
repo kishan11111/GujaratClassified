@@ -32,6 +32,21 @@ namespace GujaratClassified.API.DAL.Repositories
             return parameters.Get<bool>("@IsLiked");
         }
 
+        //public async Task<bool> IsPostLikedByUserAsync(int postId, int userId)
+        //{
+        //    using var connection = _connectionFactory.CreateConnection();
+
+        //    var parameters = new DynamicParameters();
+        //    parameters.Add("@PostId", postId);
+        //    parameters.Add("@UserId", userId);
+
+        //    var result = await connection.QueryFirstOrDefaultAsync<int>(
+        //        "SELECT COUNT(1) FROM PostLikes WHERE PostId = @PostId AND UserId = @UserId",
+        //        parameters
+        //    );
+
+        //    return result > 0;
+        //}
         public async Task<bool> IsPostLikedByUserAsync(int postId, int userId)
         {
             using var connection = _connectionFactory.CreateConnection();
@@ -41,13 +56,29 @@ namespace GujaratClassified.API.DAL.Repositories
             parameters.Add("@UserId", userId);
 
             var result = await connection.QueryFirstOrDefaultAsync<int>(
-                "SELECT COUNT(1) FROM PostLikes WHERE PostId = @PostId AND UserId = @UserId",
-                parameters
+                "SP_IsPostLikedByUser",
+                parameters,
+                commandType: CommandType.StoredProcedure
             );
 
             return result > 0;
         }
 
+
+        //public async Task<int> GetPostLikeCountAsync(int postId)
+        //{
+        //    using var connection = _connectionFactory.CreateConnection();
+
+        //    var parameters = new DynamicParameters();
+        //    parameters.Add("@PostId", postId);
+
+        //    var count = await connection.QueryFirstOrDefaultAsync<int>(
+        //        "SELECT COUNT(1) FROM PostLikes WHERE PostId = @PostId",
+        //        parameters
+        //    );
+
+        //    return count;
+        //}
         public async Task<int> GetPostLikeCountAsync(int postId)
         {
             using var connection = _connectionFactory.CreateConnection();
@@ -56,8 +87,9 @@ namespace GujaratClassified.API.DAL.Repositories
             parameters.Add("@PostId", postId);
 
             var count = await connection.QueryFirstOrDefaultAsync<int>(
-                "SELECT COUNT(1) FROM PostLikes WHERE PostId = @PostId",
-                parameters
+                "SP_GetPostLikeCount",
+                parameters,
+                commandType: CommandType.StoredProcedure
             );
 
             return count;

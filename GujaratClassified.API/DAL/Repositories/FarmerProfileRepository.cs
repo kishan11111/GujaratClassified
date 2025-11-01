@@ -38,24 +38,33 @@ namespace GujaratClassified.API.DAL.Repositories
             return profileId;
         }
 
+        //public async Task<FarmerProfile?> GetFarmerProfileByUserIdAsync(int userId)
+        //{
+        //    using var connection = _connectionFactory.CreateConnection();
+
+        //    var profile = await connection.QueryFirstOrDefaultAsync<FarmerProfile>(
+        //        @"SELECT fp.*, u.FirstName + ' ' + ISNULL(u.LastName, '') as UserName,
+        //                 u.ProfileImage as UserProfileImage, d.DistrictName, t.TalukaName
+        //          FROM FarmerProfiles fp
+        //          INNER JOIN Users u ON fp.UserId = u.UserId
+        //          LEFT JOIN Districts d ON u.DistrictId = d.DistrictId
+        //          LEFT JOIN Talukas t ON u.TalukaId = t.TalukaId
+        //          WHERE fp.UserId = @UserId",
+        //        new { UserId = userId }
+        //    );
+
+        //    return profile;
+        //}
         public async Task<FarmerProfile?> GetFarmerProfileByUserIdAsync(int userId)
         {
             using var connection = _connectionFactory.CreateConnection();
 
-            var profile = await connection.QueryFirstOrDefaultAsync<FarmerProfile>(
-                @"SELECT fp.*, u.FirstName + ' ' + ISNULL(u.LastName, '') as UserName,
-                         u.ProfileImage as UserProfileImage, d.DistrictName, t.TalukaName
-                  FROM FarmerProfiles fp
-                  INNER JOIN Users u ON fp.UserId = u.UserId
-                  LEFT JOIN Districts d ON u.DistrictId = d.DistrictId
-                  LEFT JOIN Talukas t ON u.TalukaId = t.TalukaId
-                  WHERE fp.UserId = @UserId",
-                new { UserId = userId }
+            return await connection.QueryFirstOrDefaultAsync<FarmerProfile>(
+                "sp_FarmerProfile_GetByUserId",
+                new { UserId = userId },
+                commandType: CommandType.StoredProcedure
             );
-
-            return profile;
         }
-
         public async Task<bool> UpdateFarmerProfileAsync(FarmerProfile profile)
         {
             using var connection = _connectionFactory.CreateConnection();
@@ -80,67 +89,104 @@ namespace GujaratClassified.API.DAL.Repositories
             return result > 0;
         }
 
+        //public async Task<bool> UpdateFarmerStatsAsync(int userId, string statType, int increment = 1)
+        //{
+        //    using var connection = _connectionFactory.CreateConnection();
+
+        //    var columnName = statType switch
+        //    {
+        //        "TotalPosts" => "TotalPosts",
+        //        "TotalFollowers" => "TotalFollowers",
+        //        "TotalLikes" => "TotalLikes",
+        //        "HelpfulAnswers" => "HelpfulAnswers",
+        //        _ => throw new ArgumentException("Invalid stat type")
+        //    };
+
+
+
+        //    var result = await connection.ExecuteAsync(
+        //        $"UPDATE FarmerProfiles SET {columnName} = {columnName} + @Increment WHERE UserId = @UserId",
+        //        new { UserId = userId, Increment = increment }
+        //    );
+
+        //    return result > 0;
+        //}
         public async Task<bool> UpdateFarmerStatsAsync(int userId, string statType, int increment = 1)
         {
             using var connection = _connectionFactory.CreateConnection();
 
-            var columnName = statType switch
-            {
-                "TotalPosts" => "TotalPosts",
-                "TotalFollowers" => "TotalFollowers",
-                "TotalLikes" => "TotalLikes",
-                "HelpfulAnswers" => "HelpfulAnswers",
-                _ => throw new ArgumentException("Invalid stat type")
-            };
-
-
-
             var result = await connection.ExecuteAsync(
-                $"UPDATE FarmerProfiles SET {columnName} = {columnName} + @Increment WHERE UserId = @UserId",
-                new { UserId = userId, Increment = increment }
+                "sp_FarmerProfile_UpdateStats",
+                new { UserId = userId, ColumnName = statType, Increment = increment },
+                commandType: CommandType.StoredProcedure
             );
 
             return result > 0;
         }
 
+        //public async Task<List<FarmerProfile>> GetTopFarmersAsync(int limit = 10, string orderBy = "TotalLikes")
+        //{
+        //    using var connection = _connectionFactory.CreateConnection();
+
+        //    var orderByClause = orderBy switch
+        //    {
+        //        "TotalLikes" => "fp.TotalLikes DESC",
+        //        "TotalPosts" => "fp.TotalPosts DESC",
+        //        "TotalFollowers" => "fp.TotalFollowers DESC",
+        //        "HelpfulAnswers" => "fp.HelpfulAnswers DESC",
+        //        _ => "fp.TotalLikes DESC"
+        //    };
+
+        //    var farmers = await connection.QueryAsync<FarmerProfile>(
+        //        $@"SELECT TOP(@Limit) fp.*, u.FirstName + ' ' + ISNULL(u.LastName, '') as UserName,
+        //                  u.ProfileImage as UserProfileImage, u.IsVerified, d.DistrictName, t.TalukaName
+        //           FROM FarmerProfiles fp
+        //           INNER JOIN Users u ON fp.UserId = u.UserId
+        //           LEFT JOIN Districts d ON u.DistrictId = d.DistrictId
+        //           LEFT JOIN Talukas t ON u.TalukaId = t.TalukaId
+        //           WHERE fp.IsVerifiedFarmer = 1
+        //           ORDER BY {orderByClause}",
+        //        new { Limit = limit }
+        //    );
+
+        //    return farmers.ToList();
+        //}
         public async Task<List<FarmerProfile>> GetTopFarmersAsync(int limit = 10, string orderBy = "TotalLikes")
         {
             using var connection = _connectionFactory.CreateConnection();
 
-            var orderByClause = orderBy switch
-            {
-                "TotalLikes" => "fp.TotalLikes DESC",
-                "TotalPosts" => "fp.TotalPosts DESC",
-                "TotalFollowers" => "fp.TotalFollowers DESC",
-                "HelpfulAnswers" => "fp.HelpfulAnswers DESC",
-                _ => "fp.TotalLikes DESC"
-            };
-
             var farmers = await connection.QueryAsync<FarmerProfile>(
-                $@"SELECT TOP(@Limit) fp.*, u.FirstName + ' ' + ISNULL(u.LastName, '') as UserName,
-                          u.ProfileImage as UserProfileImage, u.IsVerified, d.DistrictName, t.TalukaName
-                   FROM FarmerProfiles fp
-                   INNER JOIN Users u ON fp.UserId = u.UserId
-                   LEFT JOIN Districts d ON u.DistrictId = d.DistrictId
-                   LEFT JOIN Talukas t ON u.TalukaId = t.TalukaId
-                   WHERE fp.IsVerifiedFarmer = 1
-                   ORDER BY {orderByClause}",
-                new { Limit = limit }
+                "sp_FarmerProfile_GetTopFarmers",
+                new { Limit = limit, OrderBy = orderBy },
+                commandType: CommandType.StoredProcedure
             );
 
             return farmers.ToList();
         }
 
+        //public async Task<bool> SetVerifiedFarmerAsync(int userId, bool isVerified)
+        //{
+        //    using var connection = _connectionFactory.CreateConnection();
+
+        //    var result = await connection.ExecuteAsync(
+        //        "UPDATE FarmerProfiles SET IsVerifiedFarmer = @IsVerified, UpdatedAt = @UpdatedAt WHERE UserId = @UserId",
+        //        new { UserId = userId, IsVerified = isVerified, UpdatedAt = DateTime.UtcNow }
+        //    );
+
+        //    return result > 0;
+        //}
         public async Task<bool> SetVerifiedFarmerAsync(int userId, bool isVerified)
         {
             using var connection = _connectionFactory.CreateConnection();
 
             var result = await connection.ExecuteAsync(
-                "UPDATE FarmerProfiles SET IsVerifiedFarmer = @IsVerified, UpdatedAt = @UpdatedAt WHERE UserId = @UserId",
-                new { UserId = userId, IsVerified = isVerified, UpdatedAt = DateTime.UtcNow }
+                "sp_FarmerProfile_SetVerified",
+                new { UserId = userId, IsVerified = isVerified, UpdatedAt = DateTime.UtcNow },
+                commandType: CommandType.StoredProcedure
             );
 
             return result > 0;
         }
     }
+
 }

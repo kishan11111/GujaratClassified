@@ -143,12 +143,40 @@ namespace GujaratClassified.API.Services.Implementations
             }
         }
 
-        public async Task<ApiResponse<(List<PostListResponse> Posts, PaginationResponse Pagination)>> GetMyPostsAsync(int userId, string? status, int pageSize, int pageNumber)
-        {
+        //public async Task<ApiResponse<(List<PostListResponse> Posts, PaginationResponse Pagination)>> GetMyPostsAsync(int userId, string? status, int pageSize, int pageNumber)
+        //{
+        //    try
+        //    {
+        //        var (posts, totalCount) = await _postRepository.GetUserPostsAsync(userId, status, pageSize, pageNumber);
+
+        //        var postResponses = posts.Select(MapPostToListResponse).ToList();
+
+        //        var pagination = new PaginationResponse
+        //        {
+        //            CurrentPage = pageNumber,
+        //            PageSize = pageSize,
+        //            TotalRecords = totalCount,
+        //            TotalPages = (int)Math.Ceiling((double)totalCount / pageSize)
+        //        };
+
+        //        return ApiResponse<(List<PostListResponse>, PaginationResponse)>.SuccessResponse(
+        //            (postResponses, pagination),
+        //            $"Retrieved {postResponses.Count} posts successfully");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex, "Error getting posts for user {UserId}", userId);
+        //        return ApiResponse<(List<PostListResponse>, PaginationResponse)>.ErrorResponse(
+        //            "An error occurred while fetching posts", new List<string> { ex.Message });
+        //    }
+        //}
+
+
+        public async Task<ApiResponse<PostListWithPaginationResponse>> GetMyPostsAsync(int userId, string? status, int pageSize, int pageNumber)
+       {
             try
             {
                 var (posts, totalCount) = await _postRepository.GetUserPostsAsync(userId, status, pageSize, pageNumber);
-
                 var postResponses = posts.Select(MapPostToListResponse).ToList();
 
                 var pagination = new PaginationResponse
@@ -159,14 +187,20 @@ namespace GujaratClassified.API.Services.Implementations
                     TotalPages = (int)Math.Ceiling((double)totalCount / pageSize)
                 };
 
-                return ApiResponse<(List<PostListResponse>, PaginationResponse)>.SuccessResponse(
-                    (postResponses, pagination),
+                var response = new PostListWithPaginationResponse
+                {
+                    Items = postResponses,
+                    Pagination = pagination
+                };
+
+                return ApiResponse<PostListWithPaginationResponse>.SuccessResponse(
+                    response,
                     $"Retrieved {postResponses.Count} posts successfully");
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error getting posts for user {UserId}", userId);
-                return ApiResponse<(List<PostListResponse>, PaginationResponse)>.ErrorResponse(
+                return ApiResponse<PostListWithPaginationResponse>.ErrorResponse(
                     "An error occurred while fetching posts", new List<string> { ex.Message });
             }
         }
@@ -256,14 +290,136 @@ namespace GujaratClassified.API.Services.Implementations
             }
         }
 
+        //public async Task<ApiResponse<List<UploadResponse>>> UploadPostImagesAsync(int postId, int userId, List<IFormFile> images)
+        //{
+        //    try
+        //    {
+        //        // Verify post ownership
+        //        var post = await _postRepository.GetPostByIdAsync(postId);
+        //        if (post == null)
+        //        {
+        //            return ApiResponse<List<UploadResponse>>.ErrorResponse("Post not found or access denied");
+        //        }
+
+        //        var uploadResponses = new List<UploadResponse>();
+
+        //        for (int i = 0; i < images.Count; i++)
+        //        {
+        //            var uploadResult = await _fileUploadService.UploadImageAsync(images[i], "posts");
+
+        //            if (uploadResult.Success)
+        //            {
+        //                // Save image info to database
+        //                var postImage = new PostImage
+        //                {
+        //                    PostId = postId,
+        //                    ImageUrl = uploadResult.FileUrl!,
+        //                    IsMain = i == 0 && (post.Images?.Count == 0), // First image as main if no images exist
+        //                    SortOrder = i,
+        //                    OriginalFileName = uploadResult.FileName,
+        //                    FileSizeBytes = uploadResult.FileSizeBytes,
+        //                    MimeType = uploadResult.MimeType
+        //                };
+
+        //                await _imageRepository.AddPostImageAsync(postImage);
+        //            }
+
+        //            uploadResponses.Add(uploadResult);
+        //        }
+
+        //        return ApiResponse<List<UploadResponse>>.SuccessResponse(uploadResponses,
+        //            $"Uploaded {uploadResponses.Count(r => r.Success)} of {images.Count} images");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex, "Error uploading images for post {PostId}", postId);
+        //        return ApiResponse<List<UploadResponse>>.ErrorResponse("An error occurred while uploading images",
+        //            new List<string> { ex.Message });
+        //    }
+        //}
+
+        //public async Task<ApiResponse<List<UploadResponse>>> UploadPostImagesAsync(int postId, int userId, List<IFormFile> images)
+        //{
+        //    try
+        //    {
+        //        // Verify post ownership
+        //        var post = await _postRepository.GetPostByIdAsync(postId);
+        //        if (post == null)
+        //        {
+        //            return ApiResponse<List<UploadResponse>>.ErrorResponse("Post not found or access denied");
+        //        }
+
+        //        var uploadResponses = new List<UploadResponse>();
+
+        //        for (int i = 0; i < images.Count; i++)
+        //        {
+        //            var uploadResult = await _fileUploadService.UploadImageAsync(images[i], "posts");
+
+        //            if (uploadResult.Success)
+        //            {
+        //                var postImage = new PostImage
+        //                {
+        //                    PostId = postId,
+        //                    ImageUrl = uploadResult.FileUrl!,
+        //                    IsMain = i == 0 && (post.Images?.Count == 0),
+        //                    SortOrder = i,
+        //                    OriginalFileName = uploadResult.FileName,
+        //                    FileSizeBytes = uploadResult.FileSizeBytes,
+        //                    MimeType = uploadResult.MimeType
+        //                };
+
+        //                await _imageRepository.AddPostImageAsync(postImage);
+        //            }
+
+        //            uploadResponses.Add(uploadResult);
+        //        }
+
+        //        return ApiResponse<List<UploadResponse>>.SuccessResponse(uploadResponses,
+        //            $"Uploaded {uploadResponses.Count(r => r.Success)} of {images.Count} images");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex, "Error uploading images for post {PostId}", postId);
+
+        //        // ✅ Log into SystemErrorLogs for permanent tracking
+        //        await _imageRepository.LogSystemErrorAsync(
+        //            methodName: nameof(UploadPostImagesAsync),
+        //            procedureName: "SP_AddPostImage",
+        //            postId: postId,
+        //            userId: userId,
+        //            errorMessage: ex.Message,
+        //            stackTrace: ex.StackTrace ?? ""
+        //        );
+
+        //        return ApiResponse<List<UploadResponse>>.ErrorResponse(
+        //            "An error occurred while uploading images",
+        //            new List<string> { ex.Message }
+        //        );
+        //    }
+        //}
+
         public async Task<ApiResponse<List<UploadResponse>>> UploadPostImagesAsync(int postId, int userId, List<IFormFile> images)
         {
             try
             {
-                // Verify post ownership
+                // Log start of method
+                await _imageRepository.LogSystemInfoAsync(
+                    procedureName: "UploadPostImagesAsync",
+                    postId: postId,
+                    logType: "INFO",
+                    logMessage: $"Starting image upload for {images.Count} images by user {userId}"
+                );
+
                 var post = await _postRepository.GetPostByIdAsync(postId);
-                if (post == null || post.UserId != userId)
+                if (post == null)
                 {
+                    await _imageRepository.LogSystemInfoAsync(
+                        procedureName: "UploadPostImagesAsync",
+                        postId: postId,
+                        logType: "ERROR",
+                        logMessage: "Post not found or access denied"
+                    );
+
                     return ApiResponse<List<UploadResponse>>.ErrorResponse("Post not found or access denied");
                 }
 
@@ -273,14 +429,21 @@ namespace GujaratClassified.API.Services.Implementations
                 {
                     var uploadResult = await _fileUploadService.UploadImageAsync(images[i], "posts");
 
+                    // Log result of upload
+                    await _imageRepository.LogSystemInfoAsync(
+                        procedureName: "UploadPostImagesAsync",
+                        postId: postId,
+                        logType: uploadResult.Success ? "INFO" : "ERROR",
+                        logMessage: $"Image {i + 1}/{images.Count}: {(uploadResult.Success ? "Uploaded" : "Failed")} - {uploadResult.FileName}"
+                    );
+
                     if (uploadResult.Success)
                     {
-                        // Save image info to database
                         var postImage = new PostImage
                         {
                             PostId = postId,
                             ImageUrl = uploadResult.FileUrl!,
-                            IsMain = i == 0 && (post.Images?.Count == 0), // First image as main if no images exist
+                            IsMain = i == 0 && (post.Images?.Count == 0),
                             SortOrder = i,
                             OriginalFileName = uploadResult.FileName,
                             FileSizeBytes = uploadResult.FileSizeBytes,
@@ -288,10 +451,24 @@ namespace GujaratClassified.API.Services.Implementations
                         };
 
                         await _imageRepository.AddPostImageAsync(postImage);
+
+                        await _imageRepository.LogSystemInfoAsync(
+                            procedureName: "UploadPostImagesAsync",
+                            postId: postId,
+                            logType: "SUCCESS",
+                            logMessage: $"Saved image info to database: {uploadResult.FileName}"
+                        );
                     }
 
                     uploadResponses.Add(uploadResult);
                 }
+
+                await _imageRepository.LogSystemInfoAsync(
+                    procedureName: "UploadPostImagesAsync",
+                    postId: postId,
+                    logType: "SUCCESS",
+                    logMessage: $"Uploaded {uploadResponses.Count(r => r.Success)} of {images.Count} images"
+                );
 
                 return ApiResponse<List<UploadResponse>>.SuccessResponse(uploadResponses,
                     $"Uploaded {uploadResponses.Count(r => r.Success)} of {images.Count} images");
@@ -299,8 +476,21 @@ namespace GujaratClassified.API.Services.Implementations
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error uploading images for post {PostId}", postId);
-                return ApiResponse<List<UploadResponse>>.ErrorResponse("An error occurred while uploading images",
-                    new List<string> { ex.Message });
+
+                // Log error to SystemLogs
+                await _imageRepository.LogSystemErrorAsync(
+                    methodName: nameof(UploadPostImagesAsync),
+                    procedureName: "SP_AddPostImage",
+                    postId: postId,
+                    userId: userId,
+                    errorMessage: ex.Message,
+                    stackTrace: ex.StackTrace ?? ""
+                );
+
+                return ApiResponse<List<UploadResponse>>.ErrorResponse(
+                    "An error occurred while uploading images",
+                    new List<string> { ex.Message }
+                );
             }
         }
 
@@ -344,12 +534,38 @@ namespace GujaratClassified.API.Services.Implementations
             }
         }
 
-        public async Task<ApiResponse<(List<PostListResponse> Posts, PaginationResponse Pagination)>> GetUserFavoritesAsync(int userId, int pageSize, int pageNumber)
+        //public async Task<ApiResponse<(List<PostListResponse> Posts, PaginationResponse Pagination)>> GetUserFavoritesAsync(int userId, int pageSize, int pageNumber)
+        //{
+        //    try
+        //    {
+        //        var (posts, totalCount) = await _postRepository.GetUserFavoritesAsync(userId, pageSize, pageNumber);
+
+        //        var postResponses = posts.Select(MapPostToListResponse).ToList();
+
+        //        var pagination = new PaginationResponse
+        //        {
+        //            CurrentPage = pageNumber,
+        //            PageSize = pageSize,
+        //            TotalRecords = totalCount,
+        //            TotalPages = (int)Math.Ceiling((double)totalCount / pageSize)
+        //        };
+
+        //        return ApiResponse<(List<PostListResponse>, PaginationResponse)>.SuccessResponse(
+        //            (postResponses, pagination),
+        //            $"Retrieved {postResponses.Count} favorite posts successfully");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex, "Error getting favorites for user {UserId}", userId);
+        //        return ApiResponse<(List<PostListResponse>, PaginationResponse)>.ErrorResponse(
+        //            "An error occurred while fetching favorites", new List<string> { ex.Message });
+        //    }
+        //}
+        public async Task<ApiResponse<PostListWithPaginationResponse>> GetUserFavoritesAsync(int userId, int pageSize, int pageNumber)
         {
             try
             {
                 var (posts, totalCount) = await _postRepository.GetUserFavoritesAsync(userId, pageSize, pageNumber);
-
                 var postResponses = posts.Select(MapPostToListResponse).ToList();
 
                 var pagination = new PaginationResponse
@@ -360,18 +576,23 @@ namespace GujaratClassified.API.Services.Implementations
                     TotalPages = (int)Math.Ceiling((double)totalCount / pageSize)
                 };
 
-                return ApiResponse<(List<PostListResponse>, PaginationResponse)>.SuccessResponse(
-                    (postResponses, pagination),
+                var response = new PostListWithPaginationResponse
+                {
+                    Items = postResponses,
+                    Pagination = pagination
+                };
+
+                return ApiResponse<PostListWithPaginationResponse>.SuccessResponse(
+                    response,
                     $"Retrieved {postResponses.Count} favorite posts successfully");
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error getting favorites for user {UserId}", userId);
-                return ApiResponse<(List<PostListResponse>, PaginationResponse)>.ErrorResponse(
+                return ApiResponse<PostListWithPaginationResponse>.ErrorResponse(
                     "An error occurred while fetching favorites", new List<string> { ex.Message });
             }
         }
-
         public async Task<ApiResponse<string>> ToggleFavoriteAsync(int userId, int postId)
         {
             try
@@ -512,8 +733,9 @@ namespace GujaratClassified.API.Services.Implementations
                 VillageName = post.VillageName,
                 CategoryName = post.CategoryName,
                 SubCategoryName = post.SubCategoryName,
-                MainImageUrl = post.Images?.FirstOrDefault(i => i.IsMain)?.ImageUrl ??
-                              post.Images?.FirstOrDefault()?.ImageUrl
+                MainImageUrl = post.MainImageUrl 
+                //MainImageUrl = post.Images?.FirstOrDefault(i => i.IsMain)?.ImageUrl ??
+                //              post.Images?.FirstOrDefault()?.ImageUrl
             };
         }
     }

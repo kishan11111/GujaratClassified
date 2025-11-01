@@ -31,16 +31,33 @@ namespace GujaratClassified.API.DAL.Repositories
             return action;
         }
 
+        //public async Task<bool> IsFavoriteAsync(int userId, int postId)
+        //{
+        //    using var connection = _connectionFactory.CreateConnection();
+
+        //    var count = await connection.QuerySingleAsync<int>(
+        //        "SELECT COUNT(*) FROM UserFavorites WHERE UserId = @UserId AND PostId = @PostId",
+        //        new { UserId = userId, PostId = postId }
+        //    );
+
+        //    return count > 0;
+        //}
         public async Task<bool> IsFavoriteAsync(int userId, int postId)
         {
             using var connection = _connectionFactory.CreateConnection();
 
+            var parameters = new DynamicParameters();
+            parameters.Add("@UserId", userId);
+            parameters.Add("@PostId", postId);
+
             var count = await connection.QuerySingleAsync<int>(
-                "SELECT COUNT(*) FROM UserFavorites WHERE UserId = @UserId AND PostId = @PostId",
-                new { UserId = userId, PostId = postId }
+                "SP_IsFavorite",
+                parameters,
+                commandType: CommandType.StoredProcedure
             );
 
             return count > 0;
         }
+
     }
 }

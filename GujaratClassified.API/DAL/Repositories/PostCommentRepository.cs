@@ -123,6 +123,21 @@ namespace GujaratClassified.API.DAL.Repositories
             return replies.ToList();
         }
 
+        //public async Task<int> GetPostCommentCountAsync(int postId)
+        //{
+        //    using var connection = _connectionFactory.CreateConnection();
+
+        //    var parameters = new DynamicParameters();
+        //    parameters.Add("@PostId", postId);
+
+        //    var count = await connection.QueryFirstOrDefaultAsync<int>(
+        //        "SELECT COUNT(1) FROM PostComments WHERE PostId = @PostId AND IsActive = 1 AND IsBlocked = 0",
+        //        parameters
+        //    );
+
+        //    return count;
+        //}
+
         public async Task<int> GetPostCommentCountAsync(int postId)
         {
             using var connection = _connectionFactory.CreateConnection();
@@ -131,12 +146,30 @@ namespace GujaratClassified.API.DAL.Repositories
             parameters.Add("@PostId", postId);
 
             var count = await connection.QueryFirstOrDefaultAsync<int>(
-                "SELECT COUNT(1) FROM PostComments WHERE PostId = @PostId AND IsActive = 1 AND IsBlocked = 0",
-                parameters
+                "SP_GetPostCommentCount",
+                parameters,
+                commandType: CommandType.StoredProcedure
             );
 
             return count;
         }
+
+
+        //public async Task<bool> CanUserModifyCommentAsync(int commentId, int userId)
+        //{
+        //    using var connection = _connectionFactory.CreateConnection();
+
+        //    var parameters = new DynamicParameters();
+        //    parameters.Add("@CommentId", commentId);
+        //    parameters.Add("@UserId", userId);
+
+        //    var result = await connection.QueryFirstOrDefaultAsync<int>(
+        //        "SELECT COUNT(1) FROM PostComments WHERE CommentId = @CommentId AND UserId = @UserId AND IsActive = 1",
+        //        parameters
+        //    );
+
+        //    return result > 0;
+        //}
 
         public async Task<bool> CanUserModifyCommentAsync(int commentId, int userId)
         {
@@ -147,11 +180,13 @@ namespace GujaratClassified.API.DAL.Repositories
             parameters.Add("@UserId", userId);
 
             var result = await connection.QueryFirstOrDefaultAsync<int>(
-                "SELECT COUNT(1) FROM PostComments WHERE CommentId = @CommentId AND UserId = @UserId AND IsActive = 1",
-                parameters
+                "SP_CanUserModifyComment",
+                parameters,
+                commandType: CommandType.StoredProcedure
             );
 
             return result > 0;
         }
+
     }
 }

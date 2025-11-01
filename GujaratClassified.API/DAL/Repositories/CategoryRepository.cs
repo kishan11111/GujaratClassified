@@ -42,18 +42,46 @@ namespace GujaratClassified.API.DAL.Repositories
             return subCategories.ToList();
         }
 
+        //public async Task<Category?> GetCategoryByIdAsync(int categoryId)
+        //{
+        //    using var connection = _connectionFactory.CreateConnection();
+
+        //    var category = await connection.QueryFirstOrDefaultAsync<Category>(
+        //        @"SELECT c.*, COUNT(sc.SubCategoryId) AS SubCategoryCount
+        //          FROM Categories c
+        //          LEFT JOIN SubCategories sc ON c.CategoryId = sc.CategoryId AND sc.IsActive = 1
+        //          WHERE c.CategoryId = @CategoryId AND c.IsActive = 1
+        //          GROUP BY c.CategoryId, c.CategoryNameGujarati, c.CategoryNameEnglish, 
+        //                   c.CategoryIcon, c.CategoryImage, c.Description, c.SortOrder, c.IsActive, c.CreatedAt, c.UpdatedAt",
+        //        new { CategoryId = categoryId }
+        //    );
+
+        //    return category;
+        //}
+
+        //public async Task<SubCategory?> GetSubCategoryByIdAsync(int subCategoryId)
+        //{
+        //    using var connection = _connectionFactory.CreateConnection();
+
+        //    var subCategory = await connection.QueryFirstOrDefaultAsync<SubCategory>(
+        //        @"SELECT sc.*, c.CategoryNameEnglish AS CategoryName
+        //          FROM SubCategories sc
+        //          INNER JOIN Categories c ON sc.CategoryId = c.CategoryId
+        //          WHERE sc.SubCategoryId = @SubCategoryId AND sc.IsActive = 1",
+        //        new { SubCategoryId = subCategoryId }
+        //    );
+
+        //    return subCategory;
+        //}
+
         public async Task<Category?> GetCategoryByIdAsync(int categoryId)
         {
             using var connection = _connectionFactory.CreateConnection();
 
             var category = await connection.QueryFirstOrDefaultAsync<Category>(
-                @"SELECT c.*, COUNT(sc.SubCategoryId) AS SubCategoryCount
-                  FROM Categories c
-                  LEFT JOIN SubCategories sc ON c.CategoryId = sc.CategoryId AND sc.IsActive = 1
-                  WHERE c.CategoryId = @CategoryId AND c.IsActive = 1
-                  GROUP BY c.CategoryId, c.CategoryNameGujarati, c.CategoryNameEnglish, 
-                           c.CategoryIcon, c.CategoryImage, c.Description, c.SortOrder, c.IsActive, c.CreatedAt, c.UpdatedAt",
-                new { CategoryId = categoryId }
+                "sp_Category_GetById",
+                new { CategoryId = categoryId },
+                commandType: CommandType.StoredProcedure
             );
 
             return category;
@@ -64,14 +92,13 @@ namespace GujaratClassified.API.DAL.Repositories
             using var connection = _connectionFactory.CreateConnection();
 
             var subCategory = await connection.QueryFirstOrDefaultAsync<SubCategory>(
-                @"SELECT sc.*, c.CategoryNameEnglish AS CategoryName
-                  FROM SubCategories sc
-                  INNER JOIN Categories c ON sc.CategoryId = c.CategoryId
-                  WHERE sc.SubCategoryId = @SubCategoryId AND sc.IsActive = 1",
-                new { SubCategoryId = subCategoryId }
+                "sp_SubCategory_GetById",
+                new { SubCategoryId = subCategoryId },
+                commandType: CommandType.StoredProcedure
             );
 
             return subCategory;
         }
+
     }
 }

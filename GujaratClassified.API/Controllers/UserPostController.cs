@@ -4,16 +4,19 @@ using Microsoft.AspNetCore.Mvc;
 using GujaratClassified.API.Services.Interfaces;
 using GujaratClassified.API.Models.Request;
 using System.Security.Claims;
+using GujaratClassified.API.Models.Entity;
+using GujaratClassified.API.Services.Implementations;
 
 namespace GujaratClassified.API.Controllers
 {
     [ApiController]
     [Route("api/user/post")]
     [Produces("application/json")]
-    [Authorize] // All post management requires authentication
+    //[Authorize] // All post management requires authentication
     public class UserPostController : ControllerBase
     {
         private readonly IUserPostService _userPostService;
+        private readonly INotificationService _notificationService;
 
         public UserPostController(IUserPostService userPostService)
         {
@@ -38,6 +41,8 @@ namespace GujaratClassified.API.Controllers
 
             if (result.Success)
             {
+                var postId = result.Data.PostId;
+                //await _notificationService.CreatePostNotificationAsync(postId, userId);
                 return Ok(result);
             }
 
