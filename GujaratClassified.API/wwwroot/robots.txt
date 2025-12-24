@@ -1,0 +1,31 @@
+# robots.txt for LokBazzar - Gujarat's Leading Classified Marketplace
+
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /swagger/
+Disallow: /admin/
+
+# Sitemaps
+Sitemap: https://lokbazzar.com/sitemap.xml
+
+# Crawl-delay for bots
+Crawl-delay: 1
+
+# Allow access to static assets
+Allow: /css/
+Allow: /js/
+Allow: /images/
+Allow: /wwwroot/
+
+# Google
+User-agent: Googlebot
+Allow: /
+
+# Bing
+User-agent: Bingbot
+Allow: /
+
+# Yandex
+User-agent: Yandex
+Allow: /

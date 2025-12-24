@@ -32,14 +32,26 @@ namespace GujaratClassified.API.Models.Request
         [RegularExpression(@"^[6-9]\d{9}$", ErrorMessage = "Please enter a valid mobile number")]
         public string PrimaryPhone { get; set; }
 
-        [StringLength(15, MinimumLength = 10, ErrorMessage = "Secondary phone must be between 10-15 digits")]
+        //[StringLength(15, MinimumLength = 10, ErrorMessage = "Secondary phone must be between 10-15 digits")]
+        //public string? SecondaryPhone { get; set; }
+
+        [StringLength(15, ErrorMessage = "Secondary phone cannot exceed 15 digits")]
+        [RegularExpression(@"^$|^\d{10,15}$", ErrorMessage = "Secondary phone must be between 10-15 digits")]
         public string? SecondaryPhone { get; set; }
 
-        [StringLength(15, MinimumLength = 10, ErrorMessage = "WhatsApp number must be between 10-15 digits")]
+        //[StringLength(15, MinimumLength = 10, ErrorMessage = "WhatsApp number must be between 10-15 digits")]
+        //public string? WhatsAppNumber { get; set; }
+
+        [StringLength(15, ErrorMessage = "WhatsApp number cannot exceed 15 digits")]
+        [RegularExpression(@"^$|^\d{10,15}$", ErrorMessage = "WhatsApp number must be between 10-15 digits")]
         public string? WhatsAppNumber { get; set; }
 
-        [EmailAddress(ErrorMessage = "Invalid email format")]
+        //[EmailAddress(ErrorMessage = "Invalid email format")]
+        //[StringLength(100, ErrorMessage = "Email cannot exceed 100 characters")]
+        //public string? Email { get; set; }
+
         [StringLength(100, ErrorMessage = "Email cannot exceed 100 characters")]
+        [RegularExpression(@"^$|^[^@\s]+@[^@\s]+\.[^@\s]+$", ErrorMessage = "Invalid email format")]
         public string? Email { get; set; }
 
         [Required(ErrorMessage = "District is required")]

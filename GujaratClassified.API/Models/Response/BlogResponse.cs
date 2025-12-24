@@ -16,6 +16,14 @@
         public DateTime UpdatedAt { get; set; }
     }
 
+    public class BlogImageResponse
+    {
+        public int ImageId { get; set; }
+        public string ImageUrl { get; set; }
+        public string? Caption { get; set; }
+        public int DisplayOrder { get; set; }
+    }
+
     public class BlogListResponse
     {
         public int BlogId { get; set; }
@@ -26,6 +34,7 @@
         public int ViewCount { get; set; }
         public bool IsFeatured { get; set; }
         public DateTime CreatedAt { get; set; }
+        public List<BlogImageResponse>? Images { get; set; }
     }
 
     public class BlogListWithPaginationResponse
@@ -50,6 +59,7 @@
         public bool IsFeatured { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
+        public List<BlogImageResponse>? Images { get; set; }
         public List<BlogListResponse>? RelatedBlogs { get; set; }
     }
 }

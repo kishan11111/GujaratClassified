@@ -112,7 +112,7 @@ namespace GujaratClassified.API.Controllers.Admin
         /// <param name="request">Profile update data</param>
         /// <returns>Updated profile</returns>
         [HttpPut("profile")]
-        [Authorize]
+      
         public async Task<IActionResult> UpdateProfile([FromBody] AdminProfileUpdateRequest request)
         {
             if (!ModelState.IsValid)

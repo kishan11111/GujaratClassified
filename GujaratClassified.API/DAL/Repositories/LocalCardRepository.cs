@@ -90,27 +90,97 @@ namespace GujaratClassified.API.DAL.Repositories
         {
             using var connection = _connectionFactory.CreateConnection();
 
+            var parameters = new
+            {
+                card.UserId,
+                card.BusinessName,
+                card.BusinessNameGujarati,
+                card.BusinessDescription,
+                card.BusinessDescriptionGujarati,
+                card.CategoryId,
+                card.SubCategoryId,
+                card.ContactPersonName,
+                card.PrimaryPhone,
+                card.SecondaryPhone,
+                card.WhatsAppNumber,
+                card.Email,
+                card.DistrictId,
+                card.TalukaId,
+                card.VillageId,
+                card.FullAddress,
+                card.Latitude,
+                card.Longitude,
+                card.WorkingHours,
+                card.WorkingDays,
+                card.IsOpen24Hours,
+                card.ProfileImage,
+                card.CoverImage
+            };
+
             var cardId = await connection.ExecuteScalarAsync<int>(
                 "SP_LocalCard_Create",
-                card,
+                parameters,
                 commandType: CommandType.StoredProcedure
             );
 
             return cardId;
         }
 
+
+        //public async Task<bool> UpdateLocalCardAsync(LocalCard card)
+        //{
+        //    using var connection = _connectionFactory.CreateConnection();
+
+        //    var result = await connection.ExecuteAsync(
+        //        "SP_LocalCard_Update",
+        //        card,
+        //        commandType: CommandType.StoredProcedure
+        //    );
+
+        //    return result > 0;
+        //}
+
         public async Task<bool> UpdateLocalCardAsync(LocalCard card)
         {
             using var connection = _connectionFactory.CreateConnection();
 
+            var parameters = new
+            {
+                card.CardId,
+                card.UserId,
+                card.BusinessName,
+                card.BusinessNameGujarati,
+                card.BusinessDescription,
+                card.BusinessDescriptionGujarati,
+                card.CategoryId,
+                card.SubCategoryId,
+                card.ContactPersonName,
+                card.PrimaryPhone,
+                card.SecondaryPhone,
+                card.WhatsAppNumber,
+                card.Email,
+                card.DistrictId,
+                card.TalukaId,
+                card.VillageId,
+                card.FullAddress,
+                card.Latitude,
+                card.Longitude,
+                card.WorkingHours,
+                card.WorkingDays,
+                card.IsOpen24Hours,
+                card.ProfileImage,
+                card.CoverImage
+            };
+
             var result = await connection.ExecuteAsync(
                 "SP_LocalCard_Update",
-                card,
+                parameters,
                 commandType: CommandType.StoredProcedure
             );
 
             return result > 0;
         }
+
 
         public async Task<bool> DeleteLocalCardAsync(int cardId, int userId)
         {

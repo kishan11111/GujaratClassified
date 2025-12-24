@@ -282,7 +282,7 @@ namespace GujaratClassified.API.Services.Implementations
             try
             {
                 var post = await _postRepository.GetPostByIdAsync(postId);
-                if (post == null || !post.IsActive || post.Status != "ACTIVE")
+                if (post == null || !post.IsActive)
                 {
                     return ApiResponse<PostResponse>.ErrorResponse("Post not found or not available");
                 }

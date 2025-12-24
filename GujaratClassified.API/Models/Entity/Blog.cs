@@ -20,5 +20,6 @@
         // Navigation properties (not stored in DB, used for joins)
         public string? CategoryName { get; set; }
         public List<string>? Tags { get; set; }
+        public List<BlogImage>? Images { get; set; }
     }
 }

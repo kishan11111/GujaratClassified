@@ -47,11 +47,17 @@ namespace GujaratClassified.API.DAL.Repositories
             var parameters = new DynamicParameters();
             parameters.Add("@BlogId", blogId);
 
-            var blog = await connection.QueryFirstOrDefaultAsync<Blog>(
+            using var multi = await connection.QueryMultipleAsync(
                 "SP_GetBlogById",
                 parameters,
                 commandType: CommandType.StoredProcedure
             );
+
+            var blog = await multi.ReadFirstOrDefaultAsync<Blog>();
+            if (blog != null)
+            {
+                blog.Images = (await multi.ReadAsync<BlogImage>()).ToList();
+            }
 
             return blog;
         }

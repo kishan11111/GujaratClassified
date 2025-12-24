@@ -1,6 +1,9 @@
 ﻿using GujaratClassified.API.DAL.Interfaces;
 using GujaratClassified.API.Models.Response;
 using GujaratClassified.API.Services.Interfaces;
+using static System.Net.WebRequestMethods;
+using System.Text.Json;
+using System.Web;
 
 namespace GujaratClassified.API.Services.Implementations
 {
@@ -8,36 +11,42 @@ namespace GujaratClassified.API.Services.Implementations
     {
         private readonly IOTPRepository _otpRepository;
         private readonly ILogger<OTPService> _logger;
-
+        private const string Fast2SmsApiKey =
+    "NBdfTPU39SLEg2lkZnhqrQ75su6jYGxAtWvReVKC1i8DOHX0cpNsYRHzd2MIQlWgvno81itZ3A7heEOr";
+        private static readonly HttpClient _http = new HttpClient();
+        private const string Fast2SmsEndpoint = "https://www.fast2sms.com/dev/bulkV2";
         public OTPService(IOTPRepository otpRepository, ILogger<OTPService> logger)
         {
             _otpRepository = otpRepository;
             _logger = logger;
         }
+        private sealed class Fast2SmsResponse
+        {
+            public bool @return { get; set; }
+            public string request_id { get; set; }
+            public List<string> message { get; set; }
+        }
+       
 
+        // Main method is working below 
         public async Task<ApiResponse<OTPResponse>> SendOTPAsync(string mobile, string purpose)
         {
             try
             {
-                // Generate 6-digit OTP
-                var otpCode = GenerateOTP();
-                otpCode = "1234";
-                // Send SMS (implement your SMS service here)
-                var smsMessage = $"Your Gujarat Classified OTP is: {otpCode}. Valid for 5 minutes. Do not share with anyone.";
-                var smsSent = await SendSMSAsync(mobile, smsMessage);
+                // 1) Generate 4-digit OTP
+                var otpCode = GenerateOTP(); // keep 4-digit (your method below)
+
+
+                // 2) Send via Fast2SMS OTP route
+                var smsSent = await SendOtpViaFast2SmsAsync(mobile, otpCode);
 
                 if (!smsSent)
-                {
                     return ApiResponse<OTPResponse>.ErrorResponse("Failed to send SMS. Please try again.");
-                }
 
-                // Save OTP to database
+                // 3) Save OTP to DB
                 var otpSaved = await _otpRepository.SendOTPAsync(mobile, otpCode, purpose);
-
                 if (!otpSaved)
-                {
                     return ApiResponse<OTPResponse>.ErrorResponse("Failed to generate OTP. Please try again.");
-                }
 
                 var response = new OTPResponse
                 {
@@ -53,31 +62,65 @@ namespace GujaratClassified.API.Services.Implementations
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error sending OTP to {Mobile}", mobile);
-                return ApiResponse<OTPResponse>.ErrorResponse("An error occurred while sending OTP",
+                return ApiResponse<OTPResponse>.ErrorResponse(
+                    "An error occurred while sending OTP",
                     new List<string> { ex.Message });
             }
         }
 
-        //public async Task<ApiResponse<object>> VerifyOTPAsync(string mobile, string otpCode, string purpose)
-        //{
-        //    try
-        //    {
-        //        var isValid = await _otpRepository.VerifyOTPAsync(mobile, otpCode, purpose);
 
-        //        if (!isValid)
-        //        {
-        //            return ApiResponse<object>.ErrorResponse("Invalid or expired OTP. Please try again.");
-        //        }
+        private async Task<bool> SendOtpViaFast2SmsAsync(string mobile, string otp)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(mobile))
+                    return false;
 
-        //        return ApiResponse<object>.SuccessResponse(null, "OTP verified successfully");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogError(ex, "Error verifying OTP for {Mobile}", mobile);
-        //        return ApiResponse<object>.ErrorResponse("An error occurred while verifying OTP",
-        //            new List<string> { ex.Message });
-        //    }
-        //}
+                // Fast2SMS DLT Route Configuration
+                var requestBody = new
+                {
+                    route = "dlt",
+                    sender_id = "LOKBZR",
+                    message = "204080",  // DLT Template ID
+                    variables_values = otp,  // OTP value to replace {#VAR#}
+                    flash = 0,
+                    numbers = mobile  // Mobile number without country code
+                };
+
+                var jsonContent = JsonSerializer.Serialize(requestBody);
+                using var content = new StringContent(jsonContent, System.Text.Encoding.UTF8, "application/json");
+
+                // Create request with authorization header
+                using var request = new HttpRequestMessage(HttpMethod.Post, Fast2SmsEndpoint);
+                request.Headers.Add("authorization", Fast2SmsApiKey);
+                request.Content = content;
+
+                // Send HTTP POST request
+                using var response = await _http.SendAsync(request);
+                var body = await response.Content.ReadAsStringAsync();
+
+                _logger.LogInformation("Fast2SMS DLT response: {Body}", body);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    _logger.LogError("Fast2SMS request failed with status: {StatusCode}", response.StatusCode);
+                    return false;
+                }
+
+                // Parse JSON response for success check
+                var parsed = JsonSerializer.Deserialize<Fast2SmsResponse>(body,
+                    new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+                return parsed != null && parsed.@return;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Fast2SMS OTP send failed for {Mobile}", mobile);
+                return false;
+            }
+        }
+
+
 
         public async Task<ApiResponse<object>> VerifyOTPAsync(string mobile, string otpCode, string purpose)
         {
@@ -115,9 +158,9 @@ namespace GujaratClassified.API.Services.Implementations
         }
         public string GenerateOTP()
         {
-            // Generate 6-digit random OTP
+            // Generate 4-digit random OTP
             var random = new Random();
-            return random.Next(100000, 999999).ToString();
+            return random.Next(1000, 9999).ToString();
         }
 
         public async Task<bool> SendSMSAsync(string mobile, string message)

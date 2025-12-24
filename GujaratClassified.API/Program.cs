@@ -273,6 +273,10 @@ builder.Services.AddScoped<ILocalCardRepository, LocalCardRepository>();
 builder.Services.AddScoped<ILocalCardCategoryRepository, LocalCardCategoryRepository>();
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 builder.Services.AddScoped<IBlogRepository, BlogRepository>();
+builder.Services.AddScoped<ISponsorRepository, SponsorRepository>();
+builder.Services.AddScoped<ISystemParameterRepository, SystemParameterRepository>();
+builder.Services.AddScoped<IBlogRepository, BlogRepository>();
+builder.Services.AddScoped<IPreRegistrationRepository, PreRegistrationRepository>();
 
 // Register Services
 builder.Services.AddScoped<IAdminAuthService, AdminAuthService>();
@@ -293,12 +297,16 @@ builder.Services.AddScoped<ILocalCardService, LocalCardService>();
 builder.Services.AddScoped<ILocalCardCategoryService, LocalCardCategoryService>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<IBlogService, BlogService>();
+builder.Services.AddScoped<ISponsorService, SponsorService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
+
 // Register Helpers
 builder.Services.AddScoped<IJwtHelper, JwtHelper>();
 
 
 // Configure Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
@@ -369,7 +377,8 @@ app.UseSwaggerUI(c =>
 // IMPORTANT: Comment out HTTPS redirection for IIS
 // app.UseHttpsRedirection();
 
-// Add static file serving for uploads
+// Serve index.html as default page when accessing root URL
+app.UseDefaultFiles();
 app.UseStaticFiles();
 
 app.UseCors();

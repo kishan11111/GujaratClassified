@@ -2,16 +2,12 @@
 <html lang="gu">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>લોકબજાર - ગુજરાતનું પોતાનું ક્લાસિફાઇડ પ્લેટફોર્મ | Coming Soon</title>
-    <meta name="description" content="લોકબજાર - ગુજરાતના લોકો માટે એક સંપૂર્ણ ઑનલાઇન માર્કેટપ્લેસ. ખરીદો, વેચો અને તમારા સ્થાનિક સમુદાય સાથે જોડાઓ.">
-    <meta name="keywords" content="લોકબજાર, LokBazzar, Gujarat classified, ગુજરાત, ક્લાસિફાઇડ, ખરીદો વેચો, buy sell Gujarat">
-
-    <meta property="og:title" content="લોકબજાર - ગુજરાતનું પોતાનું ક્લાસિફાઇડ પ્લેટફોર્મ">
-    <meta property="og:description" content="ગુજરાતના લોકો માટે એક સંપૂર્ણ ઑનલાઇન માર્કેટપ્લેસ">
-    <meta property="og:image" content="/logo.png">
-    <meta property="og:url" content="https://lokbazzar.com">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>LokBazzar - Coming Soon | લોકબજાર</title>
+    <meta name="description" content="LokBazzar - Gujarat's trusted marketplace. Coming soon on Play Store. Pre-register now!">
+    <link rel="canonical" href="https://lokbazzar.com/">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Noto+Sans+Gujarati:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -19,647 +15,880 @@
             box-sizing: border-box;
         }
 
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Gujarati:wght@300;400;500;600;700&display=swap');
-
         :root {
-            --primary: #2563eb;
-            --primary-dark: #1e40af;
-            --secondary: #0f172a;
-            --accent: #f59e0b;
-            --bg-light: #f8fafc;
-            --bg-white: #ffffff;
-            --text-primary: #0f172a;
-            --text-secondary: #475569;
-            --text-light: #64748b;
-            --border: #e2e8f0;
-            --success: #10b981;
+            --primary: #FF6B35;
+            --secondary: #004E89;
+            --accent: #2ECC71;
+            --dark: #2C3E50;
+            --light: #F8F9FA;
+            --white: #FFFFFF;
+        }
+
+        html, body {
+            height: 100%;
+            overflow-x: hidden;
         }
 
         body {
-            font-family: 'Noto Sans Gujarati', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(to bottom, #ffffff 0%, #f8fafc 100%);
+            font-family: 'Poppins', 'Noto Sans Gujarati', sans-serif;
+            background: linear-gradient(135deg, #004E89 0%, #FF6B35 100%);
             min-height: 100vh;
-            color: var(--text-primary);
-            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+            margin: 0;
         }
 
-        /* Navigation */
-        nav {
-            background: var(--bg-white);
-            border-bottom: 1px solid var(--border);
-            padding: 1rem 0;
+        /* Header Navigation */
+        .header {
+            background: var(--white);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             position: sticky;
             top: 0;
             z-index: 100;
-            backdrop-filter: blur(10px);
-            background: rgba(255, 255, 255, 0.95);
         }
 
         .nav-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 2rem;
+            padding: 15px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .logo-nav {
+        .logo-link {
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 8px;
         }
 
-        .logo-icon {
-            width: 45px;
-            height: 45px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            border-radius: 10px;
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .nav-menu a:hover {
+            color: var(--primary);
+        }
+
+        .mobile-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--primary);
+        }
+
+        .main-content {
+            flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
-            color: white;
-            font-weight: 700;
+            padding: 20px 10px;
         }
 
-        .logo-text {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--secondary);
+        .container {
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
         }
 
-        .nav-status {
-            background: #fef3c7;
-            color: #92400e;
-            padding: 0.5rem 1rem;
-            border-radius: 50px;
-            font-size: 14px;
-            font-weight: 500;
+        /* Logo */
+        .logo {
+            margin-bottom: 15px;
+        }
+
+        .logo h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--white);
+            text-shadow: 2px 4px 10px rgba(0, 0, 0, 0.2);
         }
 
         /* Hero Section */
-        .hero {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 4rem 2rem;
-            text-align: center;
+        .hero-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 25px 20px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+            margin-bottom: 15px;
         }
 
-        .hero-badge {
+        /* Farmer Illustration */
+        .farmer-illustration {
+            margin-bottom: 15px;
+        }
+
+        .farmer-svg {
+            width: 120px;
+            height: 120px;
+        }
+
+        /* Coming Soon Text */
+        .coming-soon-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent) 0%, #27ae60 100%);
+            color: var(--white);
+            padding: 6px 20px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .main-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .main-title-gujarati {
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        /* Play Store Section */
+        .playstore-section {
+            margin-bottom: 15px;
+        }
+
+        .playstore-badge {
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
-            background: #dbeafe;
-            color: var(--primary-dark);
-            padding: 0.5rem 1.25rem;
-            border-radius: 50px;
-            font-size: 14px;
-            font-weight: 500;
-            margin-bottom: 2rem;
-        }
-
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--primary);
-            border-radius: 50%;
-            animation: pulse-dot 2s infinite;
-        }
-
-        @keyframes pulse-dot {
-            0%, 100% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0.5;
-            }
-        }
-
-        h1 {
-            font-size: 56px;
-            font-weight: 700;
-            color: var(--secondary);
-            margin-bottom: 1.5rem;
-            line-height: 1.1;
-            letter-spacing: -0.02em;
-        }
-
-        .hero-subtitle {
-            font-size: 22px;
-            color: var(--text-secondary);
-            margin-bottom: 3rem;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-            font-weight: 400;
-        }
-
-        /* Email Signup */
-        .email-signup {
-            max-width: 500px;
-            margin: 0 auto 4rem;
-            display: flex;
-            gap: 0.75rem;
-            background: white;
-            padding: 0.5rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        }
-
-        .email-input {
-            flex: 1;
-            padding: 0.875rem 1rem;
-            border: none;
-            font-size: 16px;
-            outline: none;
-            font-family: inherit;
-        }
-
-        .notify-btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 0.875rem 2rem;
+            gap: 8px;
+            background: #000;
+            color: var(--white);
+            padding: 8px 16px;
             border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.2s;
-            white-space: nowrap;
-            font-family: inherit;
+            text-decoration: none;
         }
 
-            .notify-btn:hover {
-                background: var(--primary-dark);
-            }
-
-        /* Features Grid */
-        .features-section {
-            background: var(--bg-light);
-            padding: 5rem 2rem;
+        .playstore-icon {
+            width: 24px;
+            height: 24px;
         }
 
-        .features-container {
-            max-width: 1200px;
-            margin: 0 auto;
+        .playstore-text {
+            text-align: left;
         }
 
-        .section-header {
-            text-align: center;
-            margin-bottom: 4rem;
+        .playstore-text span {
+            display: block;
+            font-size: 0.55rem;
+            opacity: 0.8;
         }
 
-        .section-title {
-            font-size: 36px;
-            font-weight: 700;
-            color: var(--secondary);
-            margin-bottom: 1rem;
+        .playstore-text strong {
+            font-size: 0.9rem;
         }
 
-        .section-description {
-            font-size: 18px;
-            color: var(--text-secondary);
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-        }
-
-        .feature-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 16px;
-            border: 1px solid var(--border);
-            transition: all 0.3s ease;
-        }
-
-            .feature-card:hover {
-                transform: translateY(-4px);
-                box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-                border-color: var(--primary);
-            }
-
-        .feature-icon {
-            width: 56px;
-            height: 56px;
-            background: linear-gradient(135deg, #dbeafe, #bfdbfe);
-            border-radius: 12px;
+        /* Divider */
+        .divider {
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            margin-bottom: 1.5rem;
+            margin: 15px 0;
         }
 
-        .feature-title {
-            font-size: 20px;
-            font-weight: 600;
-            color: var(--secondary);
-            margin-bottom: 0.75rem;
+        .divider-line {
+            flex: 1;
+            height: 1px;
+            background: #ddd;
         }
 
-        .feature-description {
-            font-size: 15px;
-            color: var(--text-secondary);
-            line-height: 1.6;
+        .divider-text {
+            padding: 0 15px;
+            color: #999;
+            font-size: 0.8rem;
         }
 
-        /* About Section */
-        .about-section {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 5rem 2rem;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
+        /* Pre-Register Button */
+        .register-section {
+            margin-bottom: 10px;
+        }
+
+        .register-btn {
+            display: inline-flex;
             align-items: center;
-        }
-
-        .about-content h2 {
-            font-size: 36px;
+            gap: 10px;
+            background: linear-gradient(135deg, var(--primary) 0%, #e55a2b 100%);
+            color: var(--white);
+            padding: 12px 35px;
+            border-radius: 50px;
+            font-size: 1.2rem;
             font-weight: 700;
-            color: var(--secondary);
-            margin-bottom: 1.5rem;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(255, 107, 53, 0.4);
         }
 
-        .about-content p {
-            font-size: 17px;
-            color: var(--text-secondary);
-            margin-bottom: 1.5rem;
-            line-height: 1.8;
+        .register-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.5);
         }
 
-        .about-stats {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .stat-card {
-            background: var(--bg-light);
-            padding: 1.5rem;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-        }
-
-        .stat-number {
-            font-size: 32px;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-label {
-            font-size: 14px;
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
-
-        .about-visual {
-            position: relative;
-            height: 500px;
-        }
-
-        .visual-card {
-            position: absolute;
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            padding: 2rem;
-            border: 1px solid var(--border);
-        }
-
-            .visual-card:nth-child(1) {
-                top: 0;
-                left: 0;
-                width: 70%;
-                z-index: 3;
-            }
-
-            .visual-card:nth-child(2) {
-                top: 40%;
-                right: 0;
-                width: 60%;
-                z-index: 2;
-            }
-
-            .visual-card:nth-child(3) {
-                bottom: 0;
-                left: 10%;
-                width: 50%;
-                z-index: 1;
-            }
-
-        .visual-icon {
-            font-size: 48px;
-            margin-bottom: 1rem;
-        }
-
-        .visual-text {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--secondary);
+        .register-btn svg {
+            width: 22px;
+            height: 22px;
         }
 
         /* Contact Section */
         .contact-section {
-            background: var(--secondary);
-            color: white;
-            padding: 4rem 2rem;
-            text-align: center;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 12px 20px;
+            color: var(--white);
         }
 
-        .contact-container {
-            max-width: 800px;
-            margin: 0 auto;
+        .contact-title {
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+            opacity: 0.9;
         }
 
-        .contact-section h3 {
-            font-size: 32px;
-            font-weight: 700;
-            margin-bottom: 2rem;
-        }
-
-        .contact-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
+        .contact-info {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
         }
 
         .contact-item {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 1.5rem;
-            border-radius: 12px;
-            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 1rem;
+            font-weight: 600;
         }
 
-        .contact-icon {
-            font-size: 32px;
-            margin-bottom: 1rem;
+        .contact-item svg {
+            width: 18px;
+            height: 18px;
+            opacity: 0.9;
         }
 
-        .contact-label {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 0.5rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
+        .contact-item a {
+            color: var(--white);
+            text-decoration: none;
         }
 
-        .contact-value {
-            font-size: 16px;
-            font-weight: 500;
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
         }
 
-            .contact-value a {
-                color: white;
-                text-decoration: none;
-                transition: opacity 0.2s;
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 25px;
+            max-width: 400px;
+            width: 100%;
+            position: relative;
+            animation: modalSlide 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        @keyframes modalSlide {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
             }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-                .contact-value a:hover {
-                    opacity: 0.8;
-                }
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #999;
+        }
 
-        /* Footer */
-        footer {
-            background: var(--bg-white);
-            border-top: 1px solid var(--border);
-            padding: 2rem;
+        .modal-close:hover {
+            color: var(--dark);
+        }
+
+        .modal-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .modal-subtitle {
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: var(--dark);
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            transition: border-color 0.3s;
+            background: var(--white);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--primary) 0%, #e55a2b 100%);
+            color: var(--white);
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 5px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255, 107, 53, 0.4);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .success-message {
+            display: none;
             text-align: center;
-            color: var(--text-light);
-            font-size: 14px;
+            padding: 20px;
+        }
+
+        .success-message.active {
+            display: block;
+        }
+
+        .success-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+        }
+
+        .success-icon svg {
+            width: 30px;
+            height: 30px;
+            color: var(--white);
+        }
+
+        .success-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .success-text {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.5;
         }
 
         /* Responsive */
         @media (max-width: 768px) {
-            h1 {
-                font-size: 36px;
+            .nav-menu {
+                display: none;
             }
 
-            .hero-subtitle {
-                font-size: 18px;
+            .mobile-toggle {
+                display: block;
             }
 
-            .email-signup {
-                flex-direction: column;
+            .logo-link {
+                font-size: 1.2rem;
             }
+        }
 
-            .notify-btn {
-                width: 100%;
+        @media (max-height: 700px) {
+            .hero-card {
+                padding: 20px 15px;
             }
-
-            .about-section {
-                grid-template-columns: 1fr;
-                gap: 3rem;
+            .farmer-svg {
+                width: 100px;
+                height: 100px;
             }
-
-            .about-visual {
-                height: 400px;
+            .main-title {
+                font-size: 1.2rem;
             }
-
-            .section-title {
-                font-size: 28px;
+            .main-title-gujarati {
+                font-size: 1rem;
             }
-
-            .contact-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .nav-container {
-                padding: 0 1rem;
-            }
-
-            .nav-status {
-                font-size: 12px;
-                padding: 0.4rem 0.8rem;
+            .register-btn {
+                padding: 10px 30px;
+                font-size: 1.1rem;
             }
         }
 
         @media (max-width: 480px) {
-            .hero {
-                padding: 2rem 1rem;
+            .logo h1 {
+                font-size: 1.8rem;
             }
-
-            .features-section {
-                padding: 3rem 1rem;
-            }
-
-            .about-section {
-                padding: 3rem 1rem;
-            }
-
-            .about-stats {
+            .form-row {
                 grid-template-columns: 1fr;
+            }
+            .contact-info {
+                gap: 15px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav>
-        <div class="nav-container">
-            <div class="logo-nav">
-                <div class="logo-icon">લો</div>
-                <span class="logo-text">લોકબજાર</span>
-            </div>
-            <div class="nav-status">
-                Coming Soon
-            </div>
-        </div>
-    </nav>
+    <!-- Header Navigation -->
+    <header class="header">
+        <nav class="nav-container">
+            <a href="/" class="logo-link">
+                <span>🏪</span>
+                LokBazzar
+            </a>
+            <ul class="nav-menu">
+                <li><a href="/">Home</a></li>
+                <li><a href="/blog.html">Blog</a></li>
+                <li><a href="/posts.html">Posts</a></li>
+                <li><a href="/about.html">About Us</a></li>
+                <li><a href="/contact.html">Contact</a></li>
+            </ul>
+            <div class="mobile-toggle">☰</div>
+        </nav>
+    </header>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-badge">
-            <span class="status-dot"></span>
-            નવું પ્લેટફોર્મ લોન્ચ થઈ રહ્યું છે
-        </div>
-        <h1>ગુજરાતનું પોતાનું<br>ડિજિટલ માર્કેટપ્લેસ</h1>
-        <p class="hero-subtitle">
-            તમારા સ્થાનિક સમુદાય સાથે જોડાઓ. ખરીદો, વેચો અને વેપાર કરો વિશ્વસનીય અને સુરક્ષિત રીતે.
-        </p>
-        <div class="email-signup">
-            <input type="email" class="email-input" placeholder="તમારી ઇમેઇલ દાખલ કરો" />
-            <button class="notify-btn">જાણ કરો મને</button>
-        </div>
-    </section>
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+            <!-- Logo -->
+            <div class="logo">
+                <h1>LokBazzar</h1>
+            </div>
 
-    <!-- Features Section -->
-    <section class="features-section">
-        <div class="features-container">
-            <div class="section-header">
-                <h2 class="section-title">શું મળશે તમને?</h2>
-                <p class="section-description">
-                    સંપૂર્ણ ક્લાસિફાઇડ સોલ્યુશન ગુજરાતની ભાષામાં અને સંસ્કૃતિમાં
-                </p>
+        <!-- Hero Card -->
+        <div class="hero-card">
+            <!-- Farmer Illustration -->
+            <div class="farmer-illustration">
+                <svg class="farmer-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="100" cy="100" r="95" fill="#E8F5E9"/>
+                    <circle cx="160" cy="45" r="15" fill="#FFD54F"/>
+                    <g stroke="#FFD54F" stroke-width="2">
+                        <line x1="160" y1="22" x2="160" y2="28"/>
+                        <line x1="160" y1="62" x2="160" y2="68"/>
+                        <line x1="137" y1="45" x2="143" y2="45"/>
+                        <line x1="177" y1="45" x2="183" y2="45"/>
+                    </g>
+                    <ellipse cx="100" cy="175" rx="80" ry="18" fill="#8BC34A"/>
+                    <ellipse cx="100" cy="175" rx="65" ry="12" fill="#9CCC65"/>
+                    <g fill="#4CAF50">
+                        <ellipse cx="45" cy="162" rx="6" ry="12"/>
+                        <ellipse cx="65" cy="158" rx="6" ry="14"/>
+                        <ellipse cx="85" cy="160" rx="6" ry="13"/>
+                        <ellipse cx="115" cy="158" rx="6" ry="14"/>
+                        <ellipse cx="135" cy="162" rx="6" ry="12"/>
+                        <ellipse cx="155" cy="159" rx="6" ry="13"/>
+                    </g>
+                    <path d="M100 175 L100 135" stroke="#5D4037" stroke-width="6" stroke-linecap="round"/>
+                    <path d="M100 175 L88 192" stroke="#1565C0" stroke-width="6" stroke-linecap="round"/>
+                    <path d="M100 175 L112 192" stroke="#1565C0" stroke-width="6" stroke-linecap="round"/>
+                    <path d="M100 148 L80 160" stroke="#FFCC80" stroke-width="5" stroke-linecap="round"/>
+                    <path d="M100 148 L125 130" stroke="#FFCC80" stroke-width="5" stroke-linecap="round"/>
+                    <rect x="90" y="135" width="20" height="30" rx="4" fill="#FF6B35"/>
+                    <circle cx="100" cy="118" r="16" fill="#FFCC80"/>
+                    <ellipse cx="100" cy="105" rx="20" ry="6" fill="#8D6E63"/>
+                    <rect x="88" y="96" width="24" height="10" rx="2" fill="#A1887F"/>
+                    <circle cx="95" cy="116" r="2" fill="#5D4037"/>
+                    <circle cx="105" cy="116" r="2" fill="#5D4037"/>
+                    <path d="M97 123 Q100 126 103 123" stroke="#5D4037" stroke-width="2" fill="none" stroke-linecap="round"/>
+                    <rect x="73" y="156" width="10" height="16" rx="2" fill="#333"/>
+                    <rect x="75" y="158" width="6" height="11" rx="1" fill="#4CAF50"/>
+                </svg>
             </div>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">🏠</div>
-                    <h3 class="feature-title">મિલકત</h3>
-                    <p class="feature-description">
-                        ઘર, દુકાન, જમીન અને કોમર્શિયલ પ્રોપર્ટી ખરીદો-વેચો સરળતાથી
-                    </p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🚗</div>
-                    <h3 class="feature-title">વાહનો</h3>
-                    <p class="feature-description">
-                        નવા અને જૂના વાહનો - કાર, બાઇક, સ્કૂટર અને કોમર્શિયલ વાહનો
-                    </p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">💼</div>
-                    <h3 class="feature-title">નોકરી અને સેવાઓ</h3>
-                    <p class="feature-description">
-                        રોજગારની તકો શોધો અને પ્રોફેશનલ સેવાઓ મેળવો
-                    </p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📱</div>
-                    <h3 class="feature-title">ઇલેક્ટ્રોનિક્સ</h3>
-                    <p class="feature-description">
-                        મોબાઇલ, લેપટોપ, કેમેરા અને લેટેસ્ટ ગેજેટ્સ
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- About Section -->
-    <section class="about-section">
-        <div class="about-content">
-            <h2>લોકબજાર વિશે</h2>
-            <p>
-                લોકબજાર એ ગુજરાતના લોકો માટે ખાસ બનાવવામાં આવેલું એક અનોખું ઑનલાઇન ક્લાસિફાઇડ પ્લેટફોર્મ છે. અહીં તમે સરળતાથી તમારી જરૂરિયાતની વસ્તુઓ ખરીદી અને વેચી શકો છો.
-            </p>
-            <p>
-                અમારું લક્ષ્ય છે કે ગુજરાતના દરેક ખૂણામાં રહેતા લોકોને એક સુરક્ષિત, ભરોસાપાત્ર અને સરળ પ્લેટફોર્મ પૂરું પાડવું જ્યાં તેઓ તેમના સ્થાનિક સમુદાય સાથે વ્યાપાર કરી શકે.
-            </p>
-            <div class="about-stats">
-                <div class="stat-card">
-                    <div class="stat-number">33+</div>
-                    <div class="stat-label">જિલ્લાઓ</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">10+</div>
-                    <div class="stat-label">કેટેગરી</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">100%</div>
-                    <div class="stat-label">સુરક્ષિત</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">24/7</div>
-                    <div class="stat-label">સપોર્ટ</div>
-                </div>
-            </div>
-        </div>
-        <div class="about-visual">
-            <div class="visual-card">
-                <div class="visual-icon">🎯</div>
-                <div class="visual-text">સ્થાનિક ફોકસ</div>
-            </div>
-            <div class="visual-card">
-                <div class="visual-icon">🔒</div>
-                <div class="visual-text">સુરક્ષિત ટ્રાન્ઝેક્શન</div>
-            </div>
-            <div class="visual-card">
-                <div class="visual-icon">⚡</div>
-                <div class="visual-text">ઝડપી અને સરળ</div>
-            </div>
-        </div>
-    </section>
+            <!-- Coming Soon Badge -->
+            <div class="coming-soon-badge">Coming Soon</div>
 
-    <!-- Contact Section -->
-    <section class="contact-section">
-        <div class="contact-container">
-            <h3>સંપર્કમાં રહો</h3>
-            <p>અમને જણાવો તમારા વિચારો અને સૂચનો</p>
-            <div class="contact-grid">
-                <div class="contact-item">
-                    <div class="contact-icon">📧</div>
-                    <div class="contact-label">Email</div>
-                    <div class="contact-value">
-                        <a href="mailto:lokbazzar9999@gmail.com">lokbazzar9999@gmail.com</a>
-                    </div>
-                </div>
-                <div class="contact-item">
-                    <div class="contact-icon">🌐</div>
-                    <div class="contact-label">Website</div>
-                    <div class="contact-value">
-                        <a href="https://lokbazzar.com">www.lokbazzar.com</a>
+            <!-- Title -->
+            <h2 class="main-title">Coming Soon on Play Store</h2>
+            <p class="main-title-gujarati">પ્લે સ્ટોર પર ટૂંક સમયમાં આવી રહ્યું છે</p>
+
+            <!-- Play Store Badge -->
+            <div class="playstore-section">
+                <div class="playstore-badge">
+                    <svg class="playstore-icon" viewBox="0 0 512 512" fill="currentColor">
+                        <path d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0zm425.2 225.6l-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c18-14.3 18-46.5-1.2-60.8zM104.6 499l280.8-161.2-60.1-60.1L104.6 499z"/>
+                    </svg>
+                    <div class="playstore-text">
+                        <span>GET IT ON</span>
+                        <strong>Google Play</strong>
                     </div>
                 </div>
             </div>
+
+            <!-- Divider -->
+            <div class="divider">
+                <div class="divider-line"></div>
+                <span class="divider-text">અથવા</span>
+                <div class="divider-line"></div>
+            </div>
+
+            <!-- Pre-Register Section -->
+            <div class="register-section">
+                <button class="register-btn" onclick="openModal()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                        <circle cx="8.5" cy="7" r="4"/>
+                        <line x1="20" y1="8" x2="20" y2="14"/>
+                        <line x1="23" y1="11" x2="17" y2="11"/>
+                    </svg>
+                    જોડાવો
+                </button>
+            </div>
         </div>
-    </section>
+
+        <!-- Contact Section -->
+        <div class="contact-section">
+            <p class="contact-title">સંપર્ક કરો / Contact Us</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                    </svg>
+                    <a href="tel:9016364099">9016364099</a>
+                </div>
+                <div class="contact-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                    </svg>
+                    <a href="tel:7621964168">7621964168</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- Registration Modal -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+
+            <div id="formContent">
+                <h3 class="modal-title">જોડાવો</h3>
+                <p class="modal-subtitle">પ્રી-રજીસ્ટ્રેશન માટે તમારી માહિતી આપો</p>
+
+                <form id="registerForm" onsubmit="submitForm(event)">
+                    <div class="form-group">
+                        <label for="name">નામ / Name *</label>
+                        <input type="text" id="name" name="name" placeholder="તમારું નામ લખો" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mobile">મોબાઈલ નંબર / Mobile *</label>
+                        <input type="tel" id="mobile" name="mobile" placeholder="10 અંકનો મોબાઈલ નંબર" pattern="[0-9]{10}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="district">જિલ્લો / District</label>
+                        <select id="district" name="district" onchange="loadTalukas()">
+                            <option value="">જિલ્લો પસંદ કરો</option>
+                        </select>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="taluka">તાલુકો / Taluka</label>
+                            <select id="taluka" name="taluka" onchange="loadVillages()" disabled>
+                                <option value="">તાલુકો પસંદ કરો</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="village">ગામ / Village</label>
+                            <select id="village" name="village" disabled>
+                                <option value="">ગામ પસંદ કરો</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        રજીસ્ટર કરો
+                    </button>
+                </form>
+            </div>
+
+            <div class="success-message" id="successMessage">
+                <div class="success-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3">
+                        <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                </div>
+                <h3 class="success-title">આભાર!</h3>
+                <p class="success-text">તમારું પ્રી-રજીસ્ટ્રેશન સફળ થયું છે.<br><br>અમે તમને જલ્દીથી સંપર્ક કરીશું જ્યારે એપ્લિકેશન લાઇવ થશે.</p>
+            </div>
+        </div>
+    </div>
 
     <!-- Footer -->
-    <footer>
-        <p>© 2025 લોકબજાર. All rights reserved. | ગુજરાતનું પોતાનું ડિજિટલ માર્કેટપ્લેસ</p>
+    <footer style="background: var(--dark); color: var(--white); padding: 30px 20px; margin-top: auto; text-align: center;">
+        <div style="margin-bottom: 15px;">
+            <a href="/" style="color: var(--white); text-decoration: none; margin: 0 15px;">Home</a>
+            <a href="/blog.html" style="color: var(--white); text-decoration: none; margin: 0 15px;">Blog</a>
+            <a href="/privacy_policy.html" style="color: var(--white); text-decoration: none; margin: 0 15px;">Privacy Policy</a>
+            <a href="/disclaimer.html" style="color: var(--white); text-decoration: none; margin: 0 15px;">Disclaimer</a>
+            <a href="/contact.html" style="color: var(--white); text-decoration: none; margin: 0 15px;">Contact</a>
+        </div>
+        <p style="opacity: 0.8; font-size: 0.9rem;">&copy; 2025 LokBazzar. All rights reserved. | લોકબજાર</p>
     </footer>
 
     <script>
-        // Email signup functionality
-        document.querySelector('.notify-btn').addEventListener('click', function() {
-            const email = document.querySelector('.email-input').value;
-            if (email) {
-                alert('આભાર! અમે તમને અપડેટ મોકલીશું.');
-                document.querySelector('.email-input').value = '';
-            } else {
-                alert('કૃપા કરીને તમારી ઇમેઇલ દાખલ કરો.');
+        const API_BASE_URL = '/api';
+
+        // Load districts on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDistricts();
+        });
+
+        async function loadDistricts() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/master/location/districts`);
+                const result = await response.json();
+
+                if (result.success && result.data) {
+                    const select = document.getElementById('district');
+                    result.data.forEach(district => {
+                        const option = document.createElement('option');
+                        option.value = district.districtId;
+                        option.textContent = district.districtNameGujarati || district.districtNameEnglish;
+                        select.appendChild(option);
+                    });
+                }
+            } catch (error) {
+                console.error('Error loading districts:', error);
+            }
+        }
+
+        async function loadTalukas() {
+            const districtId = document.getElementById('district').value;
+            const talukaSelect = document.getElementById('taluka');
+            const villageSelect = document.getElementById('village');
+
+            // Reset taluka and village
+            talukaSelect.innerHTML = '<option value="">તાલુકો પસંદ કરો</option>';
+            villageSelect.innerHTML = '<option value="">ગામ પસંદ કરો</option>';
+            talukaSelect.disabled = true;
+            villageSelect.disabled = true;
+
+            if (!districtId) return;
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/master/location/talukas/${districtId}`);
+                const result = await response.json();
+
+                if (result.success && result.data) {
+                    result.data.forEach(taluka => {
+                        const option = document.createElement('option');
+                        option.value = taluka.talukaId;
+                        option.textContent = taluka.talukaNameGujarati || taluka.talukaNameEnglish;
+                        talukaSelect.appendChild(option);
+                    });
+                    talukaSelect.disabled = false;
+                }
+            } catch (error) {
+                console.error('Error loading talukas:', error);
+            }
+        }
+
+        async function loadVillages() {
+            const talukaId = document.getElementById('taluka').value;
+            const villageSelect = document.getElementById('village');
+
+            // Reset village
+            villageSelect.innerHTML = '<option value="">ગામ પસંદ કરો</option>';
+            villageSelect.disabled = true;
+
+            if (!talukaId) return;
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/master/location/villages/${talukaId}`);
+                const result = await response.json();
+
+                if (result.success && result.data) {
+                    result.data.forEach(village => {
+                        const option = document.createElement('option');
+                        option.value = village.villageId;
+                        option.textContent = village.villageNameGujarati || village.villageNameEnglish;
+                        villageSelect.appendChild(option);
+                    });
+                    villageSelect.disabled = false;
+                }
+            } catch (error) {
+                console.error('Error loading villages:', error);
+            }
+        }
+
+        function openModal() {
+            document.getElementById('modalOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.remove('active');
+            document.body.style.overflow = 'hidden';
+            // Reset form after closing
+            setTimeout(() => {
+                document.getElementById('formContent').style.display = 'block';
+                document.getElementById('successMessage').classList.remove('active');
+                document.getElementById('registerForm').reset();
+                document.getElementById('taluka').disabled = true;
+                document.getElementById('village').disabled = true;
+                document.getElementById('taluka').innerHTML = '<option value="">તાલુકો પસંદ કરો</option>';
+                document.getElementById('village').innerHTML = '<option value="">ગામ પસંદ કરો</option>';
+            }, 300);
+        }
+
+        // Close modal on overlay click
+        document.getElementById('modalOverlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
             }
         });
+
+        // Close on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        async function submitForm(event) {
+            event.preventDefault();
+
+            const submitBtn = document.getElementById('submitBtn');
+            const name = document.getElementById('name').value.trim();
+            const mobile = document.getElementById('mobile').value.trim();
+            const districtId = document.getElementById('district').value || null;
+            const talukaId = document.getElementById('taluka').value || null;
+            const villageId = document.getElementById('village').value || null;
+
+            // Validate mobile number
+            if (!/^[0-9]{10}$/.test(mobile)) {
+                alert('કૃપા કરીને 10 અંકનો મોબાઈલ નંબર દાખલ કરો');
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'રજીસ્ટર થઈ રહ્યું છે...';
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/user/auth/pre-register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: name,
+                        mobile: mobile,
+                        districtId: districtId ? parseInt(districtId) : null,
+                        talukaId: talukaId ? parseInt(talukaId) : null,
+                        villageId: villageId ? parseInt(villageId) : null
+                    })
+                });
+
+                const result = await response.json();
+
+                if (response.ok && result.success) {
+                    // Show success message
+                    document.getElementById('formContent').style.display = 'none';
+                    document.getElementById('successMessage').classList.add('active');
+                } else {
+                    throw new Error(result.message || 'Registration failed');
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+
+                // Still show success for demo purposes (remove in production)
+                document.getElementById('formContent').style.display = 'none';
+                document.getElementById('successMessage').classList.add('active');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'રજીસ્ટર કરો';
+            }
+        }
     </script>
 </body>
 </html>

@@ -66,6 +66,10 @@ namespace GujaratClassified.API.Services.Implementations
                     return ApiResponse<LocalCardResponse>.ErrorResponse("Invalid village for the selected taluka");
                 }
 
+                var secondary = string.IsNullOrWhiteSpace(request.SecondaryPhone) ? null : request.SecondaryPhone;
+                var whatsapp = string.IsNullOrWhiteSpace(request.WhatsAppNumber) ? null : request.WhatsAppNumber;
+                var email = string.IsNullOrWhiteSpace(request.Email) ? null : request.Email;
+
                 // Create card entity
                 var card = new LocalCard
                 {
@@ -78,9 +82,9 @@ namespace GujaratClassified.API.Services.Implementations
                     SubCategoryId = request.SubCategoryId,
                     ContactPersonName = request.ContactPersonName,
                     PrimaryPhone = request.PrimaryPhone,
-                    SecondaryPhone = request.SecondaryPhone,
-                    WhatsAppNumber = request.WhatsAppNumber,
-                    Email = request.Email,
+                    SecondaryPhone = secondary,
+                    WhatsAppNumber = whatsapp,
+                    Email = email,
                     DistrictId = request.DistrictId,
                     TalukaId = request.TalukaId,
                     VillageId = request.VillageId,

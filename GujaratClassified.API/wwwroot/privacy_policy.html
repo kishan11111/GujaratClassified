@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Terms and Conditions - LokBazar</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      background: #F5F5F5;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      color: #333;
+      height: 100%;
+    }
+    .container {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: #F5F5F5;
+    }
+    .header {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      background: #4CAF50;
+      padding: 40px 15px 15px 15px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+    }
+    .backButton {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+    .backIcon {
+      font-size: 28px;
+      color: #fff;
+      font-weight: bold;
+    }
+    .headerTitle {
+      flex: 1;
+      font-size: 20px;
+      font-weight: bold;
+      color: #fff;
+      text-align: center;
+    }
+    .languageButton {
+      background: rgba(255,255,255,0.2);
+      padding: 6px 12px;
+      border-radius: 15px;
+      cursor: pointer;
+    }
+    .languageText {
+      color: #fff;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .contentContainer {
+      padding: 20px;
+      padding-bottom: 40px;
+      flex: 1;
+      overflow-y: auto;
+    }
+    .welcomeText {
+      font-size: 15px;
+      color: #333;
+      line-height: 24px;
+      margin-bottom: 25px;
+      background: #E8F5E9;
+      padding: 15px;
+      border-radius: 10px;
+      border-left: 4px solid #4CAF50;
+    }
+    .sectionTitle {
+      font-size: 18px;
+      font-weight: bold;
+      color: #2E7D32;
+      margin-top: 20px;
+      margin-bottom: 12px;
+    }
+    .subTitle {
+      font-size: 16px;
+      font-weight: 600;
+      color: #388E3C;
+      margin-top: 15px;
+      margin-bottom: 8px;
+    }
+    .paragraph {
+      font-size: 14px;
+      color: #555;
+      line-height: 22px;
+      margin-bottom: 10px;
+      text-align: justify;
+    }
+    .lastUpdated {
+      font-size: 12px;
+      color: #999;
+      font-style: italic;
+      margin-top: 30px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="backButton" onclick="history.back()">
+        <span class="backIcon">&#x2190;</span>
+      </div>
+      <div class="headerTitle" id="pageTitle">Terms and Conditions</div>
+      <div class="languageButton" onclick="toggleLanguage()">
+        <span class="languageText" id="languageSwitch">ગુજરાતી</span>
+      </div>
+    </div>
+    <div class="contentContainer" id="content">
+      <!-- Terms will insert here -->
+    </div>
+  </div>
+  <script>
+    // Full English and Gujarati content as constants
+    const termsEnglish = `
+      <div class="welcomeText">
+        Welcome to LokBazar! These Terms and Conditions govern your access to and use of our application and services. By using LokBazar, you agree to comply with and be bound by the terms outlined below. Please read them carefully.
+      </div>
+
+      <div class="sectionTitle">1. User Responsibilities</div>
+      <div class="subTitle">1.1 Account and Information Accuracy</div>
+      <div class="paragraph">
+        • Users must provide accurate and complete information during registration and while posting content.<br>
+        • Any information uploaded by users, including news, details, or listings, must be truthful and not misleading.<br>
+        • Users are solely responsible for the accuracy of the content they upload.
+      </div>
+      <div class="subTitle">1.2 Content Ownership and Rights</div>
+      <div class="paragraph">
+        • By uploading content (including text, images, logos, and other materials), users grant LokBazar the right to publish such content on the platform.<br>
+        • Users must ensure that any content uploaded does not infringe upon intellectual property, trademark, or privacy rights of others.
+      </div>
+      <div class="subTitle">1.3 Spam, Harmful, or Incorrect Information</div>
+      <div class="paragraph">
+        • Users are prohibited from uploading spam, harmful, offensive, or inappropriate information.<br>
+        • LokBazar reserves the right to block or suspend any user account found violating these terms.<br>
+        • Legal action may also be pursued by affected parties against the offending user.
+      </div>
+
+      <div class="sectionTitle">2. Privacy and Data Use</div>
+      <div class="subTitle">2.1 Personal Information Collection</div>
+      <div class="paragraph">
+        • We collect personal information only when users voluntarily provide it, such as during registration or interaction with platform features.<br>
+        • Users may choose to visit the platform anonymously; however, certain features may require identity verification.
+      </div>
+      <div class="subTitle">2.2 Data Sharing and Publication</div>
+      <div class="paragraph">
+        • Information such as names, contact details, and locations may be visible to other users as part of your postings.<br>
+        • We do not sell, trade, or rent personal data.<br>
+        • Generic demographic data, without personally identifiable details, may be shared with trusted affiliates and advertisers for analytical purposes.
+      </div>
+      <div class="subTitle">2.3 Liability for Uploaded Content</div>
+      <div class="paragraph">
+        • The application acts as a medium for users to share information.<br>
+        • Any disputes or claims regarding incorrect, harmful, or fraudulent content are the sole responsibility of the user who uploaded the content.<br>
+        • LokBazar is not liable for such issues.<br>
+        • If users identify incorrect or harmful information, they can report the post or request its removal by contacting our support team via email or phone.
+      </div>
+      <div class="subTitle">2.4 Fees and Payments</div>
+      <div class="paragraph">
+        • LokBazar may charge fees for transactions, premium listings, or other services offered through the platform.<br>
+        • All applicable fees will be clearly disclosed and must be agreed upon by the user before any transaction is processed.
+      </div>
+
+      <div class="sectionTitle">3. Platform Moderation and Content Removal</div>
+      <div class="subTitle">3.1 Verification of Information</div>
+      <div class="paragraph">
+        • While we strive to review and verify user-uploaded content, due to high traffic or operational constraints, some content may not be thoroughly reviewed.<br>
+        • Users should independently verify the authenticity of the information before acting on it.
+      </div>
+      <div class="subTitle">3.2 Post Removal Requests</div>
+      <div class="paragraph">
+        • Users can manage and review their active posts in the "My Posts" section of the app.<br>
+        • LokBazar may assist in removing posts upon request, subject to the availability of the customer support team.<br>
+        • Delays or errors in fulfilling these requests are not LokBazar's responsibility, as this service is provided as a free courtesy.
+      </div>
+      <div class="subTitle">3.3 Right to Remove Listings</div>
+      <div class="paragraph">
+        • LokBazar reserves the right to remove any listings that violate its policies.<br>
+        • This includes, but is not limited to, content that is misleading, inappropriate, or breaches any terms of use.<br>
+        • Users are encouraged to review and comply with all guidelines.
+      </div>
+
+      <div class="sectionTitle">4. User Behavior and Legal Accountability</div>
+      <div class="subTitle">4.1 Prohibited Conduct</div>
+      <div class="paragraph">
+        • Users must not upload or share content that is spam, illegal, harmful, defamatory, or likely to harm others.<br>
+        • Violations may result in account suspension or termination.<br>
+        • Users may face legal action initiated by affected parties.
+      </div>
+      <div class="subTitle">4.2 Dispute Responsibility</div>
+      <div class="paragraph">
+        • Any disputes or harm arising from user-uploaded content are solely the responsibility of the offending user.<br>
+        • LokBazar disclaims liability for any such incidents.
+      </div>
+
+      <div class="sectionTitle">5. Communication</div>
+      <div class="paragraph">
+        LokBazar may communicate with users via email, SMS, or app notifications regarding account activity, updates, and services. These communications are essential and cannot be opted out of.
+      </div>
+
+      <div class="sectionTitle">6. Changes to Terms and Conditions</div>
+      <div class="paragraph">
+        • LokBazar reserves the right to modify these Terms and Conditions at any time.<br>
+        • Updates will be effective once published on the platform.<br>
+        • Continued use of the app constitutes acceptance of the revised terms.
+      </div>
+
+      <div class="sectionTitle">7. Contact Information</div>
+      <div class="paragraph">
+        For any queries or concerns regarding these Terms and Conditions, please contact us:<br><br>
+        Application: LokBazar<br>
+        Email: support@lokbazaar.com<br>
+        Phone: +91-XXXXXXXXXX
+      </div>
+      <div class="lastUpdated">
+        Last Updated: ${new Date().toLocaleDateString('en-GB')}
+      </div>
+    `;
+    const termsGujarati = `
+      <div class="welcomeText">
+        લોકબજાર માં આપનું સ્વાગત છે! આ નિયમો અને શરતો અમારી એપ્લિકેશન અને સેવાઓના તમારા ઉપયોગને નિયંત્રિત કરે છે. લોકબજાર નો ઉપયોગ કરીને, તમે નીચે દર્શાવેલ શરતોનું પાલન કરવા અને તેનાથી બંધાયેલા રહેવા સંમત થાઓ છો. કૃપા કરીને તેને ધ્યાનપૂર્વક વાંચો.
+      </div>
+      <div class="sectionTitle">1. વપરાશકર્તાની જવાબદારીઓ</div>
+      <div class="subTitle">1.1 એકાઉન્ટ અને માહિતીની ચોકસાઈ</div>
+      <div class="paragraph">
+        • નોંધણી દરમિયાન અને સામગ્રી પોસ્ટ કરતી વખતે વપરાશકર્તાઓએ સચોટ અને સંપૂર્ણ માહિતી પ્રદાન કરવી આવશ્યક છે.<br>
+        • વપરાશકર્તાઓ દ્વારા અપલોડ કરવામાં આવતી કોઈપણ માહિતી, સમાચાર, વિગતો અથવા જાહેરાતો સત્ય હોવી જોઈએ અને ભ્રામક ન હોવી જોઈએ.<br>
+        • વપરાશકર્તાઓ તેમના દ્વારા અપલોડ કરવામાં આવેલી સામગ્રીની ચોકસાઈ માટે સંપૂર્ણ રીતે જવાબદાર છે.
+      </div>
+      <div class="subTitle">1.2 સામગ્રીની માલિકી અને અધિકારો</div>
+      <div class="paragraph">
+        • સામગ્રી અપલોડ કરીને (ટેક્સ્ટ, છબીઓ, લોગો અને અન્ય સામગ્રી સહિત), વપરાશકર્તાઓ લોકબજાર ને પ્લેટફોર્મ પર આવી સામગ્રી પ્રકાશિત કરવાનો અધિકાર આપે છે.<br>
+        • વપરાશકર્તાઓએ ખાતરી કરવી જોઈએ કે અપલોડ કરવામાં આવેલી કોઈપણ સામગ્રી બૌદ્ધિક સંપત્તિ અધિકારો, ટ્રેડમાર્ક અથવા અન્યના ગોપનીયતા અધિકારોનું ઉલ્લંઘન કરતી નથી.
+      </div>
+      <div class="subTitle">1.3 સ્પામ, હાનિકારક અથવા ખોટી માહિતી</div>
+      <div class="paragraph">
+        • વપરાશકર્તાઓને સ્પામ, હાનિકારક, અપમાનજનક અથવા અયોગ્ય માહિતી અપલોડ કરવાની મનાઈ છે.<br>
+        • લોકબજાર આ શરતોનું ઉલ્લંઘન કરતા કોઈપણ વપરાશકર્તા એકાઉન્ટને બ્લોક અથવા સસ્પેન્ડ કરવાનો અધિકાર અનામત રાખે છે.<br>
+        • પ્રભાવિત પક્ષો દ્વારા ઉલ્લંઘન કરનાર વપરાશકર્તા સામે કાનૂની કાર્યવાહી પણ કરી શકાય છે.
+      </div>
+      <div class="sectionTitle">2. ગોપનીયતા અને ડેટા ઉપયોગ</div>
+      <div class="subTitle">2.1 વ્યક્તિગત માહિતી સંગ્રહ</div>
+      <div class="paragraph">
+        • અમે વ્યક્તિગત માહિતી માત્ર ત્યારે જ એકત્રિત કરીએ છીએ જ્યારે વપરાશકર્તાઓ સ્વેચ્છાએ તે પ્રદાન કરે છે, જેમ કે નોંધણી દરમિયાન અથવા પ્લેટફોર્મ સુવિધાઓ સાથે ક્રિયાપ્રતિક્રિયા દરમિયાન.<br>
+        • વપરાશકર્તાઓ પ્લેટફોર્મની મુલાકાત અનામી રીતે લેવાનું પસંદ કરી શકે છે; જો કે, કેટલીક સુવિધાઓ માટે ઓળખ ચકાસણી જરૂરી હોઈ શકે છે.
+      </div>
+      <div class="subTitle">2.2 ડેટા શેરિંગ અને પ્રકાશન</div>
+      <div class="paragraph">
+        • નામ, સંપર્ક વિગતો અને સ્થાનો જેવી માહિતી તમારી પોસ્ટિંગના ભાગ રૂપે અન્ય વપરાશકર્તાઓને દૃશ્યમાન હોઈ શકે છે.<br>
+        • અમે વ્યક્તિગત ડેટા વેચતા, વેપાર કરતા અથવા ભાડે આપતા નથી.<br>
+        • વ્યક્તિગત રૂપે ઓળખી શકાય તેવી વિગતો વિના સામાન્ય વસ્તી વિષયક ડેટા વિશ્લેષણાત્મક હેતુઓ માટે વિશ્વસનીય સહયોગીઓ અને જાહેરાતકર્તાઓ સાથે શેર કરી શકાય છે.
+      </div>
+      <div class="subTitle">2.3 અપલોડ કરેલી સામગ્રી માટે જવાબદારી</div>
+      <div class="paragraph">
+        • એપ્લિકેશન વપરાશકર્તાઓ માટે માહિતી શેર કરવા માટેના માધ્યમ તરીકે કાર્ય કરે છે.<br>
+        • ખોટી, હાનિકારક અથવા છેતરપિંડીયુક્ત સામગ્રી અંગેના કોઈપણ વિવાદ અથવા દાવાઓ સામગ્રી અપલોડ કરનાર વપરાશકર્તાની સંપૂર્ણ જવાબદારી છે.<br>
+        • લોકબજાર આવા મુદ્દાઓ માટે જવાબદાર નથી.<br>
+        • જો વપરાશકર્તાઓ ખોટી અથવા હાનિકારક માહિતી ઓળખે છે, તો તેઓ પોસ્ટની જાણ કરી શકે છે અથવા ઈમેલ અથવા ફોન દ્વારા અમારી સહાયતા ટીમનો સંપર્ક કરીને તેને દૂર કરવા વિનંતી કરી શકે છે.
+      </div>
+      <div class="subTitle">2.4 ફી અને ચુકવણી</div>
+      <div class="paragraph">
+        • લોકબજાર વ્યવહારો, પ્રીમિયમ લિસ્ટિંગ્સ અથવા પ્લેટફોર્મ દ્વારા ઑફર કરવામાં આવતી અન્ય સેવાઓ માટે ફી વસૂલ કરી શકે છે.<br>
+        • તમામ લાગુ ફી સ્પષ્ટપણે જાહેર કરવામાં આવશે અને કોઈપણ વ્યવહાર પ્રક્રિયા કરતા પહેલા વપરાશકર્તા દ્વારા સંમતિ આપવી આવશ્યક છે.
+      </div>
+      <div class="sectionTitle">3. પ્લેટફોર્મ નિયંત્રણ અને સામગ્રી દૂર કરવી</div>
+      <div class="subTitle">3.1 માહિતીની ચકાસણી</div>
+      <div class="paragraph">
+        • જ્યારે અમે વપરાશકર્તા-અપલોડ કરેલી સામગ્રીની સમીક્ષા અને ચકાસણી કરવાનો પ્રયાસ કરીએ છીએ, ઉચ્ચ ટ્રાફિક અથવા ઓપરેશનલ મર્યાદાઓને કારણે, કેટલીક સામગ્રીની સંપૂર્ણ સમીક્ષા ન થઈ શકે.<br>
+        • વપરાશકર્તાઓએ તેના પર કાર્યવાહી કરતા પહેલા માહિતીની અધિકૃતતાની સ્વતંત્ર રીતે ચકાસણી કરવી જોઈએ.
+      </div>
+      <div class="subTitle">3.2 પોસ્ટ દૂર કરવાની વિનંતીઓ</div>
+      <div class="paragraph">
+        • વપરાશકર્તાઓ એપ્લિકેશનના "મારી પોસ્ટ્સ" વિભાગમાં તેમની સક્રિય પોસ્ટ્સનું સંચાલન અને સમીક્ષા કરી શકે છે.<br>
+        • લોકબજાર વિનંતી પર પોસ્ટ્સ દૂર કરવામાં સહાયતા કરી શકે છે, અમારા ગ્રાહક સહાયતા ટીમની ઉપલબ્ધતાને આધિન.<br>
+        • આ વિનંતીઓ પૂર્ણ કરવામાં વિલંબ અથવા ભૂલો માટે લોકબજાર જવાબદાર નથી, કારણ કે આ સેવા મફત સૌજન્ય તરીકે પ્રદાન કરવામાં આવે છે
+      </div>
+      <div class="subTitle">3.3 લિસ્ટિંગ્સ દૂર કરવાનો અધિકાર</div>
+      <div class="paragraph">
+        • લોકબજાર તેની નીતિઓનું ઉલ્લંઘન કરતી કોઈપણ લિસ્ટિંગ્સ દૂર કરવાનો અધિકાર અનામત રાખે છે.<br>
+        • આમાં ભ્રામક, અયોગ્ય અથવા ઉપયોગની શરતોનો ભંગ કરતી સામગ્રીનો સમાવેશ થાય છે, પરંતુ તે પૂરતો મર્યાદિત નથી.<br>
+        • વપરાશકર્તાઓને તેમની લિસ્ટિંગ્સ સક્રિય રહે તે સુનિશ્ચિત કરવા માટે તમામ માર્ગદર્શિકાઓની સમીક્ષા કરવા અને તેનું પાલન કરવા પ્રોત્સાહિત કરવામાં આવે છે.
+      </div>
+      <div class="sectionTitle">4. વપરાશકર્તા વર્તન અને કાનૂની જવાબદારી</div>
+      <div class="subTitle">4.1 પ્રતિબંધિત આચરણ</div>
+      <div class="paragraph">
+        • વપરાશકર્તાઓએ સ્પામ, ગેરકાયદેસર, હાનિકારક, બદનક્ષીકારક અથવા અન્યને નુકસાન પહોંચાડે તેવી સામગ્રી અપલોડ અથવા શેર ન કરવી જોઈએ.<br>
+        • ઉલ્લંઘનને પરિણામે એકાઉન્ટ સસ્પેન્શન અથવા સમાપ્તિ થઈ શકે છે.<br>
+        • વપરાશકર્તાઓ પ્રભાવિત પક્ષો દ્વારા શરૂ કરાયેલી કાનૂની કાર્યવાહીનો સામનો કરી શકે છે.
+      </div>
+      <div class="subTitle">4.2 વિવાદ જવાબદારી</div>
+      <div class="paragraph">
+        • વપરાશકર્તા-અપલોડ કરેલી સામગ્રીથી ઉદ્ભવતા કોઈપણ વિવાદ અથવા નુકસાન ઉલ્લંઘન કરનાર વપરાશકર્તાની સંપૂર્ણ જવાબદારી છે.<br>
+        • લોકબજાર આવી કોઈપણ ઘટના માટે જવાબદારી અસ્વીકાર કરે છે.
+      </div>
+      <div class="sectionTitle">5. સંચાર</div>
+      <div class="paragraph">
+        લોકબજાર એકાઉન્ટ પ્રવૃત્તિ, અપડેટ્સ અને સેવાઓ અંગે ઈમેલ, SMS અથવા એપ્લિકેશન સૂચનાઓ દ્વારા વપરાશકર્તાઓ સાથે સંચાર કરી શકે છે. આ સંચારો આવશ્યક છે અને તેમાંથી બહાર નીકળી શકાતું નથી.
+      </div>
+      <div class="sectionTitle">6. નિયમો અને શરતોમાં ફેરફારો</div>
+      <div class="paragraph">
+        • લોકબજાર કોઈપણ સમયે આ નિયમો અને શરતોમાં ફેરફાર કરવાનો અધિકાર અનામત રાખે છે.<br>
+        • અપડેટ્સ પ્લેટફોર્મ પર પ્રકાશિત થયા પછી અસરકારક થશે.<br>
+        • એપ્લિકેશનનો ચાલુ ઉપયોગ સુધારેલી શરતોની સ્વીકૃતિ દર્શાવે છે.
+      </div>
+      <div class="sectionTitle">7. સંપર્ક માહિતી</div>
+      <div class="paragraph">
+        આ નિયમો અને શરતો અંગે કોઈપણ પ્રશ્નો અથવા ચિંતાઓ માટે, કૃપા કરીને અમારો સંપર્ક કરો:<br><br>
+        એપ્લિકેશન: લોકબજાર<br>
+        ઈમેલ: support@lokbazaar.com<br>
+        ફોન: +91-XXXXXXXXXX
+      </div>
+      <div class="lastUpdated">
+        છેલ્લે અપડેટ કર્યું: ${new Date().toLocaleDateString('en-GB')}
+      </div>
+    `;
+    let languageState = 'english';
+    function renderContent() {
+      document.getElementById('content').innerHTML = languageState === 'english' ? termsEnglish : termsGujarati;
+      document.getElementById('pageTitle').innerText = languageState === 'english' ? 'Terms and Conditions' : 'નિયમો અને શરતો';
+      document.getElementById('languageSwitch').innerText = languageState === 'english' ? 'ગુજરાતી' : 'English';
+    }
+    function toggleLanguage() {
+      languageState = languageState === 'english' ? 'gujarati' : 'english';
+      renderContent();
+    }
+    renderContent();
+  </script>
+</body>
+</html>

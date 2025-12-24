@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using GujaratClassified.API.Services.Interfaces;
 using GujaratClassified.API.Models.Request;
+using GujaratClassified.API.Models.Entity;
+using GujaratClassified.API.DAL.Interfaces;
 using System.Security.Claims;
 
 namespace GujaratClassified.API.Controllers
@@ -13,14 +15,68 @@ namespace GujaratClassified.API.Controllers
     public class UserAuthController : ControllerBase
     {
         private readonly IUserAuthService _userAuthService;
+        private readonly IPreRegistrationRepository _preRegistrationRepository;
         private readonly ILogger<UserAuthController> _logger;
 
 
         public UserAuthController(IUserAuthService userAuthService,
+            IPreRegistrationRepository preRegistrationRepository,
             ILogger<UserAuthController> logger)
         {
             _userAuthService = userAuthService;
+            _preRegistrationRepository = preRegistrationRepository;
             _logger = logger;
+        }
+
+        /// <summary>
+        /// Pre-register user without OTP (for app launch pre-registration)
+        /// </summary>
+        /// <param name="request">Name, mobile, and optional village</param>
+        /// <returns>Success confirmation</returns>
+        [HttpPost("pre-register")]
+        public async Task<IActionResult> PreRegister([FromBody] PreRegisterRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { Success = false, Message = "Invalid request data", Errors = ModelState });
+            }
+
+            try
+            {
+                // Check if mobile already registered
+                var exists = await _preRegistrationRepository.ExistsByMobileAsync(request.Mobile);
+                if (exists)
+                {
+                    return Ok(new { Success = true, Message = "You are already pre-registered! We will contact you soon." });
+                }
+
+                // Create pre-registration
+                var preRegistration = new PreRegistration
+                {
+                    Name = request.Name,
+                    Mobile = request.Mobile,
+                    DistrictId = request.DistrictId,
+                    TalukaId = request.TalukaId,
+                    VillageId = request.VillageId,
+                    CreatedAt = DateTime.UtcNow,
+                    IsConverted = false
+                };
+
+                var result = await _preRegistrationRepository.CreateAsync(preRegistration);
+
+                if (result)
+                {
+                    _logger.LogInformation("Pre-registration successful for mobile: {Mobile}", request.Mobile);
+                    return Ok(new { Success = true, Message = "Pre-registration successful! We will contact you when the app launches." });
+                }
+
+                return BadRequest(new { Success = false, Message = "Failed to save pre-registration. Please try again." });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error during pre-registration for mobile: {Mobile}", request.Mobile);
+                return StatusCode(500, new { Success = false, Message = "An error occurred. Please try again later." });
+            }
         }
 
         /// <summary>
@@ -30,7 +86,7 @@ namespace GujaratClassified.API.Controllers
         /// <returns>OTP sent confirmation</returns>
         [HttpPost("send-otp")]
         public async Task<IActionResult> SendOTP([FromBody] SendOTPRequest request)
-        {
+        { 
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -179,7 +235,7 @@ namespace GujaratClassified.API.Controllers
         /// </summary>
         /// <returns>User profile details</returns>
         [HttpGet("profile")]
-        [Authorize]
+        
         public async Task<IActionResult> GetProfile()
         {
             var userId = GetCurrentUserId();

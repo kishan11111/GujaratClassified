@@ -1,5 +1,11 @@
 ﻿using GujaratClassified.API.Services.Interfaces;
 using GujaratClassified.API.Models.Response;
+using Microsoft.AspNetCore.WebUtilities;
+using static System.Net.Mime.MediaTypeNames;
+using ImageSharpImage = SixLabors.ImageSharp.Image;
+using SixLabors.ImageSharp.Processing;
+using SixLabors.ImageSharp.Formats.Webp;
+using SixLabors.ImageSharp;
 
 namespace GujaratClassified.API.Services.Implementations
 {
@@ -18,11 +24,68 @@ namespace GujaratClassified.API.Services.Implementations
             _logger = logger;
         }
 
+        //public async Task<UploadResponse> UploadImageAsync(IFormFile file, string folder = "posts")
+        //{
+        //    try
+        //    {
+        //        // Validate file
+        //        if (!IsValidImageFile(file))
+        //        {
+        //            return new UploadResponse
+        //            {
+        //                Success = false,
+        //                Message = "Invalid image file",
+        //                Errors = new List<string> { "Only JPG, PNG, GIF, WEBP files are allowed" }
+        //            };
+        //        }
+
+        //        // Generate unique filename
+        //        var fileName = GenerateFileName(file.FileName);
+        //        var uploadsPath = Path.Combine(_environment.WebRootPath, "uploads", folder);
+
+        //        // Create directory if it doesn't exist
+        //        if (!Directory.Exists(uploadsPath))
+        //        {
+        //            Directory.CreateDirectory(uploadsPath);
+        //        }
+
+        //        var filePath = Path.Combine(uploadsPath, fileName);
+        //        var fileUrl = $"/uploads/{folder}/{fileName}";
+
+        //        // Save file
+        //        using (var stream = new FileStream(filePath, FileMode.Create))
+        //        {
+        //            await file.CopyToAsync(stream);
+        //        }
+
+        //        _logger.LogInformation("Image uploaded successfully: {FileName}", fileName);
+
+        //        return new UploadResponse
+        //        {
+        //            Success = true,
+        //            Message = "Image uploaded successfully",
+        //            FileUrl = fileUrl,
+        //            FileName = fileName,
+        //            FileSizeBytes = file.Length,
+        //            MimeType = file.ContentType
+        //        };
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex, "Error uploading image: {FileName}", file.FileName);
+        //        return new UploadResponse
+        //        {
+        //            Success = false,
+        //            Message = "Error uploading image",
+        //            Errors = new List<string> { ex.Message }
+        //        };
+        //    }
+        //}
+
         public async Task<UploadResponse> UploadImageAsync(IFormFile file, string folder = "posts")
         {
             try
             {
-                // Validate file
                 if (!IsValidImageFile(file))
                 {
                     return new UploadResponse
@@ -33,26 +96,41 @@ namespace GujaratClassified.API.Services.Implementations
                     };
                 }
 
-                // Generate unique filename
+                // Generate filename + paths
                 var fileName = GenerateFileName(file.FileName);
                 var uploadsPath = Path.Combine(_environment.WebRootPath, "uploads", folder);
 
-                // Create directory if it doesn't exist
                 if (!Directory.Exists(uploadsPath))
-                {
                     Directory.CreateDirectory(uploadsPath);
-                }
 
                 var filePath = Path.Combine(uploadsPath, fileName);
                 var fileUrl = $"/uploads/{folder}/{fileName}";
 
-                // Save file
-                using (var stream = new FileStream(filePath, FileMode.Create))
+                // 🔥 Load image with ImageSharp
+                using var image = await ImageSharpImage.LoadAsync(file.OpenReadStream());
+
+                // 🔥 Resize if width is large (max 1080px)
+                int maxWidth = 1080;
+                if (image.Width > maxWidth)
                 {
-                    await file.CopyToAsync(stream);
+                    image.Mutate(x => x.Resize(new ResizeOptions
+                    {
+                        Mode = ResizeMode.Max,
+                        Size = new Size(maxWidth, 0)
+                    }));
                 }
 
-                _logger.LogInformation("Image uploaded successfully: {FileName}", fileName);
+                // 🔥 WebP compression settings
+                var encoder = new WebpEncoder
+                {
+                    Quality = 75,
+                    FileFormat = WebpFileFormatType.Lossy
+                };
+
+                // 🔥 Save optimized image
+                await image.SaveAsync(filePath, encoder);
+
+                _logger.LogInformation("Optimized image saved successfully: {FileName}", fileName);
 
                 return new UploadResponse
                 {
@@ -60,7 +138,7 @@ namespace GujaratClassified.API.Services.Implementations
                     Message = "Image uploaded successfully",
                     FileUrl = fileUrl,
                     FileName = fileName,
-                    FileSizeBytes = file.Length,
+                    FileSizeBytes = new FileInfo(filePath).Length,
                     MimeType = file.ContentType
                 };
             }
@@ -75,6 +153,7 @@ namespace GujaratClassified.API.Services.Implementations
                 };
             }
         }
+
 
         public async Task<UploadResponse> UploadVideoAsync(IFormFile file, string folder = "posts")
         {

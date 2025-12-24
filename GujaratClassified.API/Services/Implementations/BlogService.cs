@@ -31,7 +31,14 @@ namespace GujaratClassified.API.Services.Implementations
                     Author = b.Author,
                     ViewCount = b.ViewCount,
                     IsFeatured = b.IsFeatured,
-                    CreatedAt = b.CreatedAt
+                    CreatedAt = b.CreatedAt,
+                    Images = b.Images?.Select(img => new BlogImageResponse
+                    {
+                        ImageId = img.ImageId,
+                        ImageUrl = img.ImageUrl,
+                        Caption = img.Caption,
+                        DisplayOrder = img.DisplayOrder
+                    }).ToList()
                 }).ToList();
 
                 var totalPages = (int)Math.Ceiling((double)totalCount / filter.PageSize);
@@ -90,6 +97,13 @@ namespace GujaratClassified.API.Services.Implementations
                     IsFeatured = blog.IsFeatured,
                     CreatedAt = blog.CreatedAt,
                     UpdatedAt = blog.UpdatedAt,
+                    Images = blog.Images?.Select(img => new BlogImageResponse
+                    {
+                        ImageId = img.ImageId,
+                        ImageUrl = img.ImageUrl,
+                        Caption = img.Caption,
+                        DisplayOrder = img.DisplayOrder
+                    }).ToList(),
                     RelatedBlogs = relatedBlogs.Select(rb => new BlogListResponse
                     {
                         BlogId = rb.BlogId,
@@ -99,7 +113,14 @@ namespace GujaratClassified.API.Services.Implementations
                         Author = rb.Author,
                         ViewCount = rb.ViewCount,
                         IsFeatured = rb.IsFeatured,
-                        CreatedAt = rb.CreatedAt
+                        CreatedAt = rb.CreatedAt,
+                        Images = rb.Images?.Select(img => new BlogImageResponse
+                        {
+                            ImageId = img.ImageId,
+                            ImageUrl = img.ImageUrl,
+                            Caption = img.Caption,
+                            DisplayOrder = img.DisplayOrder
+                        }).ToList()
                     }).ToList()
                 };
 
@@ -130,7 +151,14 @@ namespace GujaratClassified.API.Services.Implementations
                     Author = b.Author,
                     ViewCount = b.ViewCount,
                     IsFeatured = b.IsFeatured,
-                    CreatedAt = b.CreatedAt
+                    CreatedAt = b.CreatedAt,
+                    Images = b.Images?.Select(img => new BlogImageResponse
+                    {
+                        ImageId = img.ImageId,
+                        ImageUrl = img.ImageUrl,
+                        Caption = img.Caption,
+                        DisplayOrder = img.DisplayOrder
+                    }).ToList()
                 }).ToList();
 
                 return ApiResponse<List<BlogListResponse>>.SuccessResponse(

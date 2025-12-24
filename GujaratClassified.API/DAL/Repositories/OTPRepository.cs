@@ -3,7 +3,7 @@ using GujaratClassified.API.DAL.Interfaces;
 using GujaratClassified.API.Models.Entity;
 using Microsoft.Extensions.Logging;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 
 namespace GujaratClassified.API.DAL.Repositories
 {
